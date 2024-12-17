@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authSlice from './features/auth/authSlice';
-import cartSlice from './features/cart/cartSlice'; // Import the cart slice
+import cartSlice from './features/cart/cartSlice'; // Import the cart slic
 import { baseApi } from './api/baseApi';
 import storage from 'redux-persist/lib/storage';
 import { FLUSH, PAUSE, PERSIST, persistReducer, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
