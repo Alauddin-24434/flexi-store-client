@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Products from "@/components/UI/Products/Products";
 import React, { useState } from "react";
 
@@ -6,6 +6,27 @@ const ProductDetails = () => {
   // Mock data for dynamic sizes
   const sizes = ["XS", "S", "M", "L", "XL"]; // Replace this with actual data or props
   const [selectedSize, setSelectedSize] = useState<string | null>(null); // Track selected size
+  const [quantity, setQuantity] = useState<number>(1); // Track quantity, default is 2
+  const [selectedImage, setSelectedImage] = useState<string>( // Track the selected thumbnail image
+    "https://www.mobiledokan.com/media/oppo-f25-pro-lava-red-official-image.webp"
+  );
+
+  // Handle increment of quantity
+  const incrementQuantity = () => {
+    setQuantity((prevQuantity) => prevQuantity + 1);
+  };
+
+  // Handle decrement of quantity
+  const decrementQuantity = () => {
+    if (quantity > 1) {
+      setQuantity((prevQuantity) => prevQuantity - 1);
+    }
+  };
+
+  // Handle image selection when thumbnail is clicked
+  const handleImageClick = (image: string) => {
+    setSelectedImage(image);
+  };
 
   return (
     <div className="container mx-auto mt-8">
@@ -15,33 +36,53 @@ const ProductDetails = () => {
         <div className="lg:col-span-6">
           <div className="flex gap-x-4">
             {/* Additional images */}
-            <div className="flex flex-col gap-4 w-[170px]">
+            <div className="flex flex-col gap-4 w-[170px] bg-[#008ECC] p-1 rounded-md ">
               <img
                 src="https://www.mobiledokan.com/media/oppo-f25-pro-lava-red-official-image.webp"
                 alt="Additional Image 1"
                 className="w-[170px] h-[138px] border rounded-md cursor-pointer hover:border-indigo-500"
+                onClick={() =>
+                  handleImageClick(
+                    "https://www.mobiledokan.com/media/oppo-f25-pro-lava-red-official-image.webp"
+                  )
+                }
               />
               <img
                 src="https://www.mobiledokan.com/media/oppo-f25-pro-lava-red-official-image.webp"
                 alt="Additional Image 2"
                 className="w-[170px] h-[138px] border rounded-md cursor-pointer hover:border-indigo-500"
+                onClick={() =>
+                  handleImageClick(
+                    "https://www.mobiledokan.com/media/oppo-f25-pro-lava-red-official-image.webp"
+                  )
+                }
               />
               <img
                 src="https://www.mobiledokan.com/media/oppo-f25-pro-lava-red-official-image.webp"
                 alt="Additional Image 3"
                 className="w-[170px] h-[138px] border rounded-md cursor-pointer hover:border-indigo-500"
+                onClick={() =>
+                  handleImageClick(
+                    "https://www.mobiledokan.com/media/oppo-f25-pro-lava-red-official-image.webp"
+                  )
+                }
               />
               <img
                 src="https://www.mobiledokan.com/media/oppo-f25-pro-lava-red-official-image.webp"
                 alt="Additional Image 4"
                 className="w-[170px] h-[138px] border rounded-md cursor-pointer hover:border-indigo-500"
+                onClick={() =>
+                  handleImageClick(
+                    "https://www.mobiledokan.com/media/oppo-f25-pro-lava-red-official-image.webp"
+                  )
+                }
               />
             </div>
 
             {/* Thumbnail image */}
-            <div className="w-[500px] h-[600px]">
+            <div className="w-[500px] h-[600px] bg-[#008ECC] p-1 rounded-md">
               <img
-                src="https://www.mobiledokan.com/media/oppo-f25-pro-lava-red-official-image.webp"
+                src={selectedImage} // Dynamically change the selected image
                 alt="Thumbnail Image"
                 className="w-full h-full "
               />
@@ -67,12 +108,12 @@ const ProductDetails = () => {
           {/* Color and Size Options */}
           <div>
             <div className="flex gap-4 items-center">
-            <p className="font-semibold text-gray-800">Colors:</p>
-            <div className="flex gap-4 ">
-              <span className="w-6 h-6 bg-red-500 rounded-full cursor-pointer border border-gray-300"></span>
-              <span className="w-6 h-6 bg-green-500 rounded-full cursor-pointer border border-gray-300"></span>
-              <span className="w-6 h-6 bg-blue-500 rounded-full cursor-pointer border border-gray-300"></span>
-            </div>
+              <p className="font-semibold text-gray-800">Colors:</p>
+              <div className="flex gap-4 ">
+                <span className="w-6 h-6 bg-red-500 rounded-full cursor-pointer border border-gray-300"></span>
+                <span className="w-6 h-6 bg-green-500 rounded-full cursor-pointer border border-gray-300"></span>
+                <span className="w-6 h-6 bg-blue-500 rounded-full cursor-pointer border border-gray-300"></span>
+              </div>
             </div>
 
             <div className="mt-6 flex gap-4 items-center">
@@ -99,8 +140,26 @@ const ProductDetails = () => {
             </div>
           </div>
 
+         <div className="flex gap-x-2 items-center mt-6">
+           {/* Quantity Control */}
+           <div className="border  ">
+            <button
+              onClick={decrementQuantity}
+              className="px-6 py-2 text-black border rounded-md "
+            >
+              -
+            </button>
+            <span className="px-2 h-4">{quantity}</span>
+            <button
+              onClick={incrementQuantity}
+              className="px-6 py-2 text-black border rounded-md"
+            >
+              +
+            </button>
+          </div>
+
           {/* Buttons */}
-          <div className="flex gap-4 mt-6">
+          <div className="flex gap-4 ">
             <button className="px-6 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700">
               Add to Cart
             </button>
@@ -108,10 +167,7 @@ const ProductDetails = () => {
               Buy Now
             </button>
           </div>
-          {/* featured */}
-          <div className="border">
-
-          </div>
+         </div>
         </div>
       </div>
 
