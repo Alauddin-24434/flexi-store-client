@@ -1,5 +1,6 @@
 "use client";
-import Products from "@/components/UI/Products/Products";
+
+import RelatedProducts from "@/components/UI/ProductDetails/RelatedProduct/RelatedProducts";
 import React, { useState } from "react";
 
 const ProductDetails = () => {
@@ -36,7 +37,7 @@ const ProductDetails = () => {
         <div className="lg:col-span-6">
           <div className="flex gap-x-4">
             {/* Additional images */}
-            <div className="flex flex-col gap-4 w-[170px] bg-[#008ECC] p-1 rounded-md ">
+            <div className="flex flex-col gap-4 w-[170px] p-1 rounded-md ">
               <img
                 src="https://www.mobiledokan.com/media/oppo-f25-pro-lava-red-official-image.webp"
                 alt="Additional Image 1"
@@ -80,11 +81,11 @@ const ProductDetails = () => {
             </div>
 
             {/* Thumbnail image */}
-            <div className="w-[500px] h-[600px] bg-[#008ECC] p-1 rounded-md">
+            <div className="w-[500px] h-[600px] border  rounded-md">
               <img
                 src={selectedImage} // Dynamically change the selected image
                 alt="Thumbnail Image"
-                className="w-full h-full "
+                className="w-full h-full rounded-md"
               />
             </div>
           </div>
@@ -140,19 +141,19 @@ const ProductDetails = () => {
             </div>
           </div>
 
-         <div className="flex gap-x-2 items-center mt-6">
+         <div className="flex gap-x-2 items-center justify-between mt-6">
            {/* Quantity Control */}
-           <div className="border  ">
+           <div className="border rounded-md ">
             <button
               onClick={decrementQuantity}
-              className="px-6 py-2 text-black border rounded-md "
+              className="px-6 py-2 text-black  border-r  "
             >
               -
             </button>
-            <span className="px-2 h-4">{quantity}</span>
+            <span className="px-4 h-4">{quantity}</span>
             <button
               onClick={incrementQuantity}
-              className="px-6 py-2 text-black border rounded-md"
+              className="px-6 py-2 text-black border-l"
             >
               +
             </button>
@@ -168,11 +169,64 @@ const ProductDetails = () => {
             </button>
           </div>
          </div>
+         {/* featured */}
+         <div className="mt-12  py-8 px-4 border">
+  <h3 className="text-2xl font-semibold text-gray-800 mb-6">Delivery & Returns</h3>
+  
+  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
+    {/* Same Day Dispatch */}
+    <div className="flex items-center mb-4 sm:mb-0">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="w-8 h-8 text-blue-500 mr-4"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        strokeWidth="2"
+        aria-hidden="true"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M16 7v10M8 7v10m-4 4h16"
+        />
+      </svg>
+      <div>
+        <h4 className="text-lg font-semibold text-gray-800">Same Day Dispatch</h4>
+        <p className="text-sm text-gray-600">We process all orders placed before 2 PM on the same day.</p>
+      </div>
+    </div>
+    
+    {/* Return Delivery */}
+    <div className="flex items-center">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="w-8 h-8 text-red-500 mr-4"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        strokeWidth="2"
+        aria-hidden="true"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M5 8l7 7 7-7M12 15V3"
+        />
+      </svg>
+      <div>
+        <h4 className="text-lg font-semibold text-gray-800">Return Delivery</h4>
+        <p className="text-sm text-gray-600">Hassle-free returns within 30 days for a full refund.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
         </div>
       </div>
 
       {/* Related Items */}
-      <Products />
+    <RelatedProducts/>
     </div>
   );
 };
