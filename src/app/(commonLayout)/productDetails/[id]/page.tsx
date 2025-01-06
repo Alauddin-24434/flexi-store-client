@@ -8,7 +8,7 @@ const ProductDetails = () => {
   const [selectedSize, setSelectedSize] = useState<string | null>(null); // Track selected size
 
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto mt-8">
       {/* Main container */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Left Section - Images */}

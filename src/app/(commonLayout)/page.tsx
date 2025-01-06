@@ -1,7 +1,6 @@
 "use client";
 
 import ScrollToTop from "@/components/HomeRelated/ScrollToTop";
-import Header from "@/components/Shared/Header/Header";
 import HeroSection from "@/components/Shared/HeroSection/HeroSection";
 import Categories from "@/components/UI/Categiries/Categories";
 import Products from "@/components/UI/Products/Products";
@@ -14,9 +13,7 @@ import Testimonials from "@/components/UI/Testimonials/Testimonials";
 const HomePage = () => {
   return (
     <div className=" min-h-screen">
-      {/* Header Section */}
-      <Header />
-
+ 
       {/* Hero Section */}
       <HeroSection />
 
