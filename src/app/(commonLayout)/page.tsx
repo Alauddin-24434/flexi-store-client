@@ -1,73 +1,51 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import Categories from "@/components/HomeRelated/Categories";
-import Filters from "@/components/HomeRelated/Filters";
-import FlashSale from "@/components/HomeRelated/FlashSale";
-import ProductCard from "@/components/HomeRelated/ProductCard";
+
 import ScrollToTop from "@/components/HomeRelated/ScrollToTop";
+import Header from "@/components/Shared/Header/Header";
+import HeroSection from "@/components/Shared/HeroSection/HeroSection";
+import Categories from "@/components/UI/Categiries/Categories";
+import Products from "@/components/UI/Products/Products";
+import FlashSale from "@/components/UI/FlashSale/FlashSale";
+import Footer from "@/components/Shared/Footer/Footer";
+import SpecialOffer from "@/components/UI/SpecialOffer/SpecialOffer";
+import BlogTips from "@/components/UI/BlogTips/BlogTips";
+import Testimonials from "@/components/UI/Testimonials/Testimonials";
 
 const HomePage = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const { data } = await axios.get("/api/product");
-      setProducts(data.products);
-      setLoading(false);
-    };
-    fetchProducts();
-  }, []);
-
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className=" min-h-screen">
       {/* Header Section */}
-      <header className="bg-gradient-to-r from-green-400 to-green-500 text-white py-8 text-center shadow-md">
-        <h1 className="text-4xl font-bold mb-2">Welcome to Our Store</h1>
-        <p className="text-lg">Discover amazing products at unbeatable prices!</p>
-      </header>
+      <Header />
 
-      {/* Categories */}
-      <section className="py-8">
-        <Categories />
-      </section>
+      {/* Hero Section */}
+      <HeroSection />
 
-      {/* Filters */}
-      <section className="bg-white shadow-sm p-4 mb-8 rounded-lg mx-auto w-11/12 lg:w-10/12">
-        <Filters />
-      </section>
+      {/* Special Offer Section */}
+      <SpecialOffer
+        title="Winter Discount"
+        description="20% off on selected products"
+        discountPercentage={20}
+        startDate="2025-01-10"
+        endDate="2025-01-30"
+        applicableProducts={["64a1f2b2c3d4e5f6g7h8i9j1", "64b2f3b2c4d5e6g7h8i9j2"]}
+      />
 
-      {/* Flash Sale */}
-      <section className="py-8 bg-yellow-50">
-        <FlashSale />
-      </section>
+      {/* Categories Section */}
+      <Categories />
+
+      {/* Flash Sale Section */}
+      <FlashSale />
+      {/* Blog or Tips Section */}
+      <BlogTips />
 
       {/* Product Grid */}
-      <section className="py-8">
-        <div className="mx-auto w-11/12 lg:w-10/12">
-          <h2 className="text-3xl font-semibold text-gray-700 mb-6">Our Products</h2>
-
-          {loading ? (
-            <p className="text-center text-gray-500 text-xl animate-pulse">Loading...</p>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {products.map((product):any => (
-                <ProductCard key={product} product={product} />
-              ))}
-            </div>
-          )}
-        </div>
-      </section>
+      <Products />
 
       {/* Scroll to Top */}
       <ScrollToTop />
-
+      <Testimonials />
       {/* Footer */}
-      <footer className="bg-gray-800 text-white py-6 mt-8 text-center">
-        <p>&copy; 2024 Your Store. All Rights Reserved.</p>
-      </footer>
+      <Footer />
     </div>
   );
 };
