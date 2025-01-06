@@ -1,166 +1,174 @@
-"use client";
+"use client"
+import Link from 'next/link';
+import React, { useState } from 'react';
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import { useFindAllProductQuery } from "@/redux/features/products/productsApi";
-import Link from "next/link";
-
-// Interface for a single product
-interface IProduct {
-  _id: string;
-  id: string;
-  name: string;
-  thumbnailImage: string;
-  price: number;
+interface Product {
+    _id: string;
+    name: string;
+    category: string;
+    image: string;
+    price: string;
+    rating: number;
 }
 
-// Interface for API Response
+const Products: React.FC = () => {
+    const products: Product[] = [
+        { _id: "1", name: "Product 1", category: "phones", image: "https://via.placeholder.com/150x100?text=Product+1", price: "$100", rating: 4.5 },
+        { _id: "2", name: "Product 2", category: "watches", image: "https://via.placeholder.com/150x100?text=Product+2", price: "$150", rating: 4.2 },
+        { _id: "3", name: "Product 3", category: "laptops", image: "https://via.placeholder.com/150x100?text=Product+3", price: "$1200", rating: 4.8 },
+        { _id: "4", name: "Product 4", category: "tablets", image: "https://via.placeholder.com/150x100?text=Product+4", price: "$300", rating: 4.0 },
+        { _id: "5", name: "Product 5", category: "cameras", image: "https://via.placeholder.com/150x100?text=Product+5", price: "$500", rating: 4.7 },
+        { _id: "6", name: "Product 6", category: "headphones", image: "https://via.placeholder.com/150x100?text=Product+6", price: "$80", rating: 4.3 },
+        { _id: "7", name: "Product 7", category: "dresses", image: "https://via.placeholder.com/150x100?text=Product+7", price: "$40", rating: 3.9 },
+        { _id: "8", name: "Product 8", category: "shoes", image: "https://via.placeholder.com/150x100?text=Product+8", price: "$60", rating: 4.1 },
+        { _id: "9", name: "Product 9", category: "bags", image: "https://via.placeholder.com/150x100?text=Product+9", price: "$80", rating: 4.4 },
+        { _id: "10", name: "Product 10", category: "jewelry", image: "https://via.placeholder.com/150x100?text=Product+10", price: "$150", rating: 4.6 },
+        { _id: "11", name: "Product 11", category: "beauty", image: "https://via.placeholder.com/150x100?text=Product+11", price: "$20", rating: 4.3 },
+        { _id: "12", name: "Product 12", category: "sports", image: "https://via.placeholder.com/150x100?text=Product+12", price: "$100", rating: 4.2 },
+        { _id: "13", name: "Product 13", category: "toys", image: "https://via.placeholder.com/150x100?text=Product+13", price: "$30", rating: 3.8 },
+        { _id: "14", name: "Product 14", category: "furniture", image: "https://via.placeholder.com/150x100?text=Product+14", price: "$200", rating: 4.5 },
+        { _id: "15", name: "Product 15", category: "appliances", image: "https://via.placeholder.com/150x100?text=Product+15", price: "$400", rating: 4.0 },
+        { _id: "16", name: "Product 16", category: "books", image: "https://via.placeholder.com/150x100?text=Product+16", price: "$15", rating: 4.8 },
+    ];
 
+    const categories: string[] = [...new Set(products.map(product => product.category))]; // Unique categories
+    const itemsPerPage: number = 4; // Show 4 products per page
 
-const AllProducts = () => {
-  const [search, setSearch] = useState<string>("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [debouncedSearch, setDebouncedSearch] = useState<string>(search);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const itemsPerPage = 8;
+    // States for filtering and pagination
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const [selectedCategory, setSelectedCategory] = useState<string>('');
+    const [searchQuery, setSearchQuery] = useState<string>('');
 
-  // Debounce search input
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedSearch(search);
-    }, 300);
-    return () => clearTimeout(handler);
-  }, [search]);
-
-  // Fetching product data
-  const { data, isError, isLoading } = useFindAllProductQuery({
-    page: currentPage,
-    limit: itemsPerPage,
-    filter: debouncedSearch,
-    category: selectedCategory,
-  });
-
-  const products: IProduct[] = data?.data || [];
-  const totalItems = data?.total || 0;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
-
-  const handleClearFilters = () => {
-    setSearch("");
-    setSelectedCategory("");
-    setCurrentPage(1);
-  };
-
-  // Loading state
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <p>Loading...</p>
-      </div>
+    // Filter products based on category and search query
+    const filteredProducts = products.filter(product => 
+        (selectedCategory === '' || product.category === selectedCategory) &&
+        product.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
-  }
 
-  // Error state
-  if (isError) {
+    // Pagination logic
+    const startIndex: number = (currentPage - 1) * itemsPerPage;
+    const currentProducts: Product[] = filteredProducts.slice(startIndex, startIndex + itemsPerPage);
+    const totalPages: number = Math.ceil(filteredProducts.length / itemsPerPage);
+
+    const handlePageChange = (page: number) => {
+        if (page >= 1 && page <= totalPages) {
+            setCurrentPage(page);
+        }
+    };
+
     return (
-      <div className="flex justify-center items-center h-screen">
-        <h2 className="text-xl font-semibold text-red-600">
-          Error loading products. Please try again later.
-        </h2>
-      </div>
-    );
-  }
-
-  return (
-    <div className="min-h-screen">
-      {/* Filters */}
-      <div className="mb-4 p-4 border rounded-lg bg-gray-100 mt-16">
-        <h3 className="font-bold text-lg mb-2">Filters</h3>
-        <div className="flex flex-wrap">
-          <input
-            type="text"
-            placeholder="Search..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="border rounded px-2 py-1 mb-2 mr-2 w-full sm:w-auto"
-          />
-          <button
-            onClick={handleClearFilters}
-            className="bg-red-500 text-white px-3 py-1 rounded mb-2 mr-2"
-          >
-            Refresh
-          </button>
-          <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            className="border rounded px-2 py-1 mb-2 mr-2 w-full sm:w-auto"
-          >
-            <option value="">All Categories</option>
-            <option value="category1">Category 1</option>
-            <option value="category2">Category 2</option>
-            <option value="category3">Category 3</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Product Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {products.map((item) => (
-          <Link key={item._id} href={`/details/${item.id}`}>
-            <div className="relative overflow-hidden rounded-lg bg-white shadow-md hover:shadow-lg transition-shadow duration-200">
-              <div className="cursor-pointer">
-                <Image
-                  src={item.thumbnailImage}
-                  alt={item.name}
-                  width={300}
-                  height={200}
-                  className="h-36 w-full object-cover rounded-t-lg"
-                />
-              </div>
-              <div className="mt-4 px-5 pb-5">
-                <h5 className="cursor-pointer text-xl font-semibold tracking-tight text-slate-900">
-                  {item.name}
-                </h5>
-                <div className="mt-2.5 mb-5 flex items-center">
-                  <span className="mr-2 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">
-                    5.0
-                  </span>
+        <section className='py-10'>
+            <div className='container mx-auto'>
+                <div className='flex justify-between items-center mb-4'>
+                    <p className='text-xl font-semibold'>Explore Our Products</p>
                 </div>
-                <div className="flex items-center justify-between">
-                  <p>
-                    <span className="text-3xl font-bold text-slate-900">
-                      ${item.price}
-                    </span>
-                  </p>
-                  <p>Add To Cart</p>
+
+                <div className="flex">
+                    {/* Sidebar for filters */}
+                    <div className="w-1/4 p-4 bg-gray-100 rounded-lg">
+                        <div className="mb-4">
+                            <h3 className="text-lg font-semibold">Categories</h3>
+                            <select 
+                                className="w-full mt-2"
+                                onChange={(e) => setSelectedCategory(e.target.value)}
+                            >
+                                <option value="">All</option>
+                                {categories.map(category => (
+                                    <option key={category} value={category}>{category}</option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div className="mb-4">
+                            <h3 className="text-lg font-semibold">Search</h3>
+                            <input 
+                                type="text" 
+                                value={searchQuery} 
+                                onChange={(e) => setSearchQuery(e.target.value)} 
+                                className="w-full mt-2"
+                                placeholder="Search Products"
+                            />
+                        </div>
+                    </div>
+
+                    {/* Products list */}
+                    <div className='w-3/4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
+                        {currentProducts.map((product) => (
+                            <Link href={`/products/${product._id}`} key={product._id}>
+                               <div className="relative mx-auto flex w-[270px] h-[322px] flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
+                                <div className="relative mx-auto w-full mt-3 flex  p-2 overflow-hidden" >
+                                    <img className="object-cover w-full  rounded-lg" src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="product image" />
+                                    <span className="absolute top-0 left-0 m-2  bg-[#008ECC] px-2 text-center text-sm font-medium text-white">39% OFF</span>
+                                </div>
+                                <div className="mt-4 px-5 pb-5">
+                                    <div>
+                                        <h5 className="text-sm font-medium text-slate-900">{product?.name}</h5>
+                                    </div>
+                                    <div className="mt-2 mb-5 flex items-center justify-between">
+                                        <p>
+                                            <span className="text-xl font-bold text-slate-900">${product?.price}</span>
+                                          
+                                        </p>
+                                        <div className="flex items-center">
+                                            <svg aria-hidden="true" className="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                            </svg>
+                                            <svg aria-hidden="true" className="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                            </svg>
+                                            <svg aria-hidden="true" className="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                            </svg>
+                                            <svg aria-hidden="true" className="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                            </svg>
+                                            <svg aria-hidden="true" className="h-5 w-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                                            </svg>
+                                            <span className="mr-2 ml-3 rounded bg-yellow-200 px-2.5 py-0.5 text-xs font-semibold">5.0</span>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center justify-center rounded-md bg-slate-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="mr-2 h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                        </svg>
+                                        Add to cart</div>
+                                </div>
+                            </div>
+                            </Link>
+                        ))}
+                    </div>
                 </div>
-              </div>
+
+                {/* Pagination */}
+                <div className="flex justify-center mt-6 gap-4">
+                    <button 
+                        onClick={() => handlePageChange(currentPage - 1)} 
+                        disabled={currentPage === 1} 
+                        className="p-2 bg-gray-300 rounded-md"
+                    >
+                        Previous
+                    </button>
+                    {[...Array(totalPages)].map((_, index) => (
+                        <button 
+                            key={index} 
+                            onClick={() => handlePageChange(index + 1)} 
+                            className={`p-2 ${currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'} rounded-md`}
+                        >
+                            {index + 1}
+                        </button>
+                    ))}
+                    <button 
+                        onClick={() => handlePageChange(currentPage + 1)} 
+                        disabled={currentPage === totalPages} 
+                        className="p-2 bg-gray-300 rounded-md"
+                    >
+                        Next
+                    </button>
+                </div>
             </div>
-          </Link>
-        ))}
-      </div>
-
-      {/* Pagination */}
-      <div className="flex justify-center mt-4">
-        <button
-          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-          disabled={currentPage === 1}
-          className="px-4 py-2 mx-2 bg-gray-300 text-gray-700 rounded disabled:opacity-50"
-        >
-          Previous
-        </button>
-        <span className="self-center">
-          Page {currentPage} of {totalPages}
-        </span>
-        <button
-          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
-          disabled={currentPage === totalPages}
-          className="px-4 py-2 mx-2 bg-gray-300 text-gray-700 rounded disabled:opacity-50"
-        >
-          Next
-        </button>
-      </div>
-    </div>
-  );
+        </section>
+    );
 };
 
-export default AllProducts;
+export default Products;

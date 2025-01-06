@@ -6,41 +6,33 @@ import Categories from "@/components/UI/Home/Categiries/Categories";
 import Products from "@/components/UI/Home/Products/Products";
 import FlashSale from "@/components/UI/Home/FlashSale/FlashSale";
 import Footer from "@/components/Shared/Footer/Footer";
-import SpecialOffer from "@/components/UI/Home/SpecialOffer/SpecialOffer";
 import BlogTips from "@/components/UI/Home/BlogTips/BlogTips";
 import Testimonials from "@/components/UI/Home/Testimonials/Testimonials";
 
 const HomePage = () => {
   return (
-    <div className=" min-h-screen">
- 
+    <div className="min-h-screen">
       {/* Hero Section */}
       <HeroSection />
 
-      {/* Special Offer Section */}
-      <SpecialOffer
-        title="Winter Discount"
-        description="20% off on selected products"
-        discountPercentage={20}
-        startDate="2025-01-10"
-        endDate="2025-01-30"
-        applicableProducts={["64a1f2b2c3d4e5f6g7h8i9j1", "64b2f3b2c4d5e6g7h8i9j2"]}
-      />
+      {/* Flash Sale Section */}
+      <FlashSale />
 
       {/* Categories Section */}
       <Categories />
 
-      {/* Flash Sale Section */}
-      <FlashSale />
+      {/* Product Grid Section */}
+      <Products />
+
       {/* Blog or Tips Section */}
       <BlogTips />
 
-      {/* Product Grid */}
-      <Products />
+      {/* Testimonials Section */}
+      <Testimonials />
 
       {/* Scroll to Top */}
       <ScrollToTop />
-      <Testimonials />
+
       {/* Footer */}
       <Footer />
     </div>

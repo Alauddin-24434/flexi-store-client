@@ -1,5 +1,6 @@
 "use client";
 
+import CustomerReview from "@/components/UI/ProductDetails/CustomerReview/CustomerReview";
 import RelatedProducts from "@/components/UI/ProductDetails/RelatedProduct/RelatedProducts";
 import React, { useState } from "react";
 
@@ -93,9 +94,19 @@ const ProductDetails = () => {
 
 {/* Right Section - Product Info */}
 <div className="lg:col-span-6 p-6">
-  <h2 className="text-2xl font-semibold text-gray-800">
+ 
+<div className="flex justify-between items-center">
+<h2 className="text-2xl font-semibold text-gray-800">
     Havic HV G-92 Gamepad
   </h2>
+   {/* Visit Shop Button */}
+   <div className="">
+    <button className="px-4 py-2 font-extrabold underline  hover:text-indigo-600">
+      Visit Shop
+    </button>
+  </div>
+</div>
+
   <span className="block mt-2 text-xl font-bold text-green-500">
     $192.00
   </span>
@@ -105,11 +116,10 @@ const ProductDetails = () => {
     Pressure sensitive.
   </p>
   <hr className="my-6" />
-
-  {/* Ratings and Reviews */}
-  <div className="flex items-center gap-2 mb-6">
+ {/* Ratings and Reviews */}
+ <div className="flex items-center gap-2 mb-6">
     <div className="flex items-center">
-      {Array(5)
+      {Array(3)
         .fill(0)
         .map((_, i) => (
           <svg
@@ -125,12 +135,11 @@ const ProductDetails = () => {
     </div>
     <p className="text-sm text-gray-600">(150 reviews)</p>
   </div>
-
   {/* Color and Size Options */}
   <div>
     <div className="flex gap-4 items-center">
       <p className="font-semibold text-gray-800">Colors:</p>
-      <div className="flex gap-4 ">
+      <div className="flex gap-4">
         <span className="w-6 h-6 bg-red-500 rounded-full cursor-pointer border border-gray-300"></span>
         <span className="w-6 h-6 bg-green-500 rounded-full cursor-pointer border border-gray-300"></span>
         <span className="w-6 h-6 bg-blue-500 rounded-full cursor-pointer border border-gray-300"></span>
@@ -161,12 +170,12 @@ const ProductDetails = () => {
     </div>
   </div>
 
+  {/* Quantity Control and Buttons */}
   <div className="flex gap-x-2 items-center justify-between mt-6">
-    {/* Quantity Control */}
-    <div className="border rounded-md ">
+    <div className="border rounded-md">
       <button
         onClick={decrementQuantity}
-        className="px-6 py-2 text-black  border-r  "
+        className="px-6 py-2 text-black border-r"
       >
         -
       </button>
@@ -179,8 +188,7 @@ const ProductDetails = () => {
       </button>
     </div>
 
-    {/* Buttons */}
-    <div className="flex gap-4 ">
+    <div className="flex gap-4">
       <button className="px-6 py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700">
         Add to Cart
       </button>
@@ -190,12 +198,11 @@ const ProductDetails = () => {
     </div>
   </div>
 
-  {/* Delivery & Returns */}
+  {/* Featured Section */}
   <div className="mt-12 py-8 px-4 border">
     <h3 className="text-2xl font-semibold text-gray-800 mb-6">
       Delivery & Returns
     </h3>
-
     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
       {/* Same Day Dispatch */}
       <div className="flex items-center mb-4 sm:mb-0">
@@ -254,11 +261,15 @@ const ProductDetails = () => {
   </div>
 </div>
 
+
        
       </div>
 
       {/* Related Items */}
     <RelatedProducts/>
+
+    {/* customer reveiwes  */}
+    <CustomerReview/>
     </div>
   );
 };
