@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";
 
@@ -31,11 +32,8 @@ const BlogDetailsPage: React.FC = () => {
     <div className="min-h-screen py-10 px-4 bg-gradient-to-br from-blue-50 to-blue-100">
       <div className="max-w-4xl mx-auto bg-white border border-gray-200 shadow-lg rounded-lg overflow-hidden">
         {/* Blog Image */}
-        <img
-          src="/images/blog1.jpg"
-          alt="Choosing Products"
-          className="w-full h-64 object-cover"
-        />
+       
+        <Image src="/images/blog1.jpg" alt="Choosing Products" className="w-full object-cover" height={100} />
 
         <div className="p-6">
           {/* Blog Title */}
@@ -45,7 +43,7 @@ const BlogDetailsPage: React.FC = () => {
 
           {/* Blog Description */}
           <p className="text-lg text-gray-700 mb-6 leading-8">
-            Shopping online can be tricky if you're unsure of how to select the
+            Shopping online can be tricky if you are unsure of how to select the
             right product. Here are some tips to help you make better choices when
             buying online:
           </p>
@@ -55,7 +53,7 @@ const BlogDetailsPage: React.FC = () => {
               <strong>Read reviews:</strong> Always check customer reviews before purchasing a product.
             </li>
             <li>
-              <strong>Compare prices:</strong> Use price comparison tools to ensure you’re getting the best deal.
+              <strong>Compare prices:</strong> Use price comparison tools to ensure you are getting the best deal.
             </li>
             <li>
               <strong>Check seller ratings:</strong> Make sure to buy from reputable sellers or platforms.
@@ -64,7 +62,7 @@ const BlogDetailsPage: React.FC = () => {
               <strong>Inspect product details:</strong> Carefully go through the product specifications to match your needs.
             </li>
             <li>
-              <strong>Return policies:</strong> Ensure the seller offers a return or refund option in case the product doesn't meet your expectations.
+              <strong>Return policies:</strong> Ensure the seller offers a return or refund option in case the product doesn nt meet your expectations.
             </li>
           </ul>
 

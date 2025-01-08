@@ -3,35 +3,36 @@ import { baseApi } from "../../api/baseApi";
 const productsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     // Create food item
-    createProdut:builder.mutation({
-      query: (foodInfo) => ({
-        url: "/foodItem-create",
+    createProdut: builder.mutation({
+      query: (productInfo) => ({
+        url: "/create-product",
         method: "POST",
-        body: foodInfo,
+        body: productInfo,
       }),
-      invalidatesTags: ["food"], // নতুন item যোগ করার পর Food ট্যাগ মেয়াদোত্তীর্ণ হবে
+      invalidatesTags: ["product"], // নতুন item যোগ করার পর Food ট্যাগ মেয়াদোত্তীর্ণ হবে
     }),
 
-    findAllProduct:builder.query({
+    findAllProduct: builder.query({
       query: ({
         page = 1,
         limit = 10,
         filter = "",
         category = "",
         sorting = "",
+        search = "",
       }) => {
         let url = `/products?page=${page}&limit=${limit}&filter=${filter}`;
-
-        // Add category and sorting to the query string if they exist
+        // Add category, sorting, and search to the query string if they exist
         if (category) url += `&category=${category}`;
         if (sorting) url += `&sorting=${sorting}`;
+        if (search) url += `&search=${encodeURIComponent(search)}`;
 
         return {
           url,
           method: "GET",
         };
       },
-      providesTags: ["food"], // This will cache all food items
+      providesTags: ["product"], // This will cache all food items
     }),
 
     // Find food item by ID
@@ -50,7 +51,7 @@ const productsApi = baseApi.injectEndpoints({
         method: "PUT",
         body: foodInfo,
       }),
-      invalidatesTags: ["food"], // নির্দিষ্ট item এবং সব Food item ক্যাশ মেয়াদোত্তীর্ণ করবে
+      invalidatesTags: ["product"], // নির্দিষ্ট item এবং সব Food item ক্যাশ মেয়াদোত্তীর্ণ করবে
     }),
 
     // Delete food item
@@ -59,13 +60,14 @@ const productsApi = baseApi.injectEndpoints({
         url: `/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["food"], // মুছে ফেলা item এবং সব Food item ক্যাশ মেয়াদোত্তীর্ণ করবে
+      invalidatesTags: ["product"], // মুছে ফেলা item এবং সব Food item ক্যাশ মেয়াদোত্তীর্ণ করবে
     }),
   }),
 });
 
 export const {
   useFindAllProductQuery,
+  useCreateProdutMutation,
   useFindProductByIdQuery,
   useUpdateFoodItemMutation,
   useDeleteFoodItemMutation,

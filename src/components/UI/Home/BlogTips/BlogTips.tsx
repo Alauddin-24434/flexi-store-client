@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 
 interface BlogTip {
@@ -68,7 +69,7 @@ const BlogTips: React.FC = () => {
               key={tip.id}
               className="bg-white shadow-lg rounded-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
             >
-              <img
+             <Image width={100} height={100}
                 src={tip.image}
                 alt={tip.title}
                 className="w-full h-48 object-cover"

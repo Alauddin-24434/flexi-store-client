@@ -1,4 +1,5 @@
 "use client";
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
@@ -95,7 +96,7 @@ const Navbar = () => {
           </div>
 
           <div className="ml-2 flex cursor-pointer items-center gap-x-1 rounded-md border border-[#008ECC] py-2 px-4 hover:bg-[#008ECC] hover:text-white">
-            <span className="text-sm font-medium">Sign in</span>
+            <span className="text-sm font-medium"><Link href={'/login'}>Login</Link></span>
           </div>
         </div>
       </div>
@@ -110,11 +111,7 @@ const Navbar = () => {
             onMouseLeave={() => setShowMegaMenu(false)}
           >
             <span
-              className={`cursor-pointer rounded-sm py-1 px-2 text-sm font-medium ${
-                router.pathname === item.path
-                  ? 'border-[#008ECC] text-[#008ECC]'
-                  : 'hover:bg-gray-100'
-              }`}
+              className="cursor-pointer rounded-sm py-1 px-2 text-sm font-medium "
               onClick={() => router.push(item.path)}
             >
               {item.label}

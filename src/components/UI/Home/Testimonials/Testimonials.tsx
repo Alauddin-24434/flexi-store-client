@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
 
@@ -113,17 +114,17 @@ const Testimonials: React.FC = () => {
                 </div>
                 <p className="text-base text-gray-900">
                   {rev.text.length > 30 ? rev.text.slice(0, 50) + '...' : rev.text} {rev.text.length > 30 && (
-                  <button
-                    className="text-blue-500 mt-2"
-                    onClick={() => handleReadMore(rev)}
-                  >
-                    more
-                  </button>
-                )}
+                    <button
+                      className="text-blue-500 mt-2"
+                      onClick={() => handleReadMore(rev)}
+                    >
+                      more
+                    </button>
+                  )}
                 </p>
-               
+
                 <div className="mt-6 flex items-center">
-                  <img
+                  <Image width={100} height={100}
                     className="h-12 w-12 rounded-full"
                     src={rev.avatarUrl}
                     alt={rev.name}

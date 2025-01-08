@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
 
@@ -48,7 +49,7 @@ const Categories = () => {
                     {categoryCard?.slice(0, showAll ? categoryCard.length : 9)?.map((cat) => (
                         <Link href={`/products?${cat?.category}`} key={cat._id} >
                              <div  className='w-full md:w-[170px] lg:w-[170px] h-[145px] flex flex-col items-center justify-center border rounded-lg p-2 bg-gray-50'>
-                            <img src={cat.image} alt={cat.name} className='w-full  object-cover rounded-md' />
+                            <Image width={100} height={100} src={cat.image} alt={cat.name} className='w-full  object-cover rounded-md' />
                             <span className='text-center mt-2 font-medium text-lg'>{cat.name}</span>
                         </div>
                         </Link>

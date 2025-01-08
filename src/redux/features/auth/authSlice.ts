@@ -3,7 +3,7 @@ import { createSlice, PayloadAction, } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 
 export interface User {
-    _id: string;
+    id: string;
     name: string;
     email: string;
     profileImage?: string;
@@ -13,7 +13,7 @@ export interface User {
 
 interface AuthState {
     token: string | null;
-    user: User | null; // ইউজার টাইপ আপডেট করুন
+    user: User | null; 
 }
 
 const initialState: AuthState = {

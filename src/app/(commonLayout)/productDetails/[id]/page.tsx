@@ -2,6 +2,7 @@
 
 import CustomerReview from "@/components/UI/ProductDetails/CustomerReview/CustomerReview";
 import RelatedProducts from "@/components/UI/ProductDetails/RelatedProduct/RelatedProducts";
+import Image from "next/image";
 import React, { useState } from "react";
 
 const ProductDetails = () => {
@@ -39,7 +40,9 @@ const ProductDetails = () => {
           <div className="flex gap-x-4">
             {/* Additional images */}
             <div className="flex flex-col gap-4 w-[170px] p-1 rounded-md ">
-              <img
+              <Image
+              width={100}
+              height={100}
                 src="https://www.mobiledokan.com/media/oppo-f25-pro-lava-red-official-image.webp"
                 alt="Additional Image 1"
                 className="w-[170px] h-[138px] border rounded-md cursor-pointer hover:border-indigo-500"
@@ -49,7 +52,9 @@ const ProductDetails = () => {
                   )
                 }
               />
-              <img
+              <Image
+              width={100}
+              height={100}
                 src="https://www.mobiledokan.com/media/oppo-f25-pro-lava-red-official-image.webp"
                 alt="Additional Image 2"
                 className="w-[170px] h-[138px] border rounded-md cursor-pointer hover:border-indigo-500"
@@ -59,7 +64,9 @@ const ProductDetails = () => {
                   )
                 }
               />
-              <img
+               <Image
+              width={100}
+              height={100}
                 src="https://www.mobiledokan.com/media/oppo-f25-pro-lava-red-official-image.webp"
                 alt="Additional Image 3"
                 className="w-[170px] h-[138px] border rounded-md cursor-pointer hover:border-indigo-500"
@@ -69,7 +76,9 @@ const ProductDetails = () => {
                   )
                 }
               />
-              <img
+               <Image
+              width={100}
+              height={100}
                 src="https://www.mobiledokan.com/media/oppo-f25-pro-lava-red-official-image.webp"
                 alt="Additional Image 4"
                 className="w-[170px] h-[138px] border rounded-md cursor-pointer hover:border-indigo-500"
@@ -83,7 +92,9 @@ const ProductDetails = () => {
 
             {/* Thumbnail image */}
             <div className="w-[500px] h-[600px] border  rounded-md">
-              <img
+            <Image
+              width={100}
+              height={100}
                 src={selectedImage} // Dynamically change the selected image
                 alt="Thumbnail Image"
                 className="w-full h-full rounded-md"

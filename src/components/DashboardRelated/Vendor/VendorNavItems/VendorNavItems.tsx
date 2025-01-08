@@ -12,8 +12,8 @@ const VendorNavItems = () => {
       icon: <FaStore />,
     },
     {
-      name: 'Add Product',
-      path: '/vendor/add-product',
+      name: 'Products Management',
+      path: '/vendor/products-management',
       icon: <FaBoxOpen />,
     },
     {

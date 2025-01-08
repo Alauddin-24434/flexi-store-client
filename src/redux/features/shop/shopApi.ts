@@ -5,7 +5,7 @@ const shopApi = baseApi.injectEndpoints({
     // Create Shop
     createShop: builder.mutation({
       query: (shopInfo) => ({
-        url: "/shops",
+        url: "/create-shop",
         method: "POST",
         body: shopInfo,
       }),
@@ -14,23 +14,21 @@ const shopApi = baseApi.injectEndpoints({
 
     // Get all shops with optional filters
     findAllShops: builder.query({
-      query: ({
-        page = 1,
-        limit = 10,
-        filter = "",
-        category = "",
-        sorting = "",
-        vendorId = "",
-      }) => {
-        let url = `/shops?page=${page}&limit=${limit}&filter=${filter}`;
-
-        // Add category, sorting, and vendorId to the query string if they exist
-        if (category) url += `&category=${category}`;
-        if (sorting) url += `&sorting=${sorting}`;
-        if (vendorId) url += `&vendorId=${vendorId}`;
-
+      query: () => {
+       
         return {
-          url,
+          url: `/shops`,
+          method: "GET",
+        };
+      },
+      providesTags: ["Shop"], // Cache all shop data
+    }),
+    // find sgops by vendorid
+    findShopsVendorId: builder.query({
+      query: (vendorId) => {
+       
+        return {
+          url: `/shops/${vendorId}`,
           method: "GET",
         };
       },
@@ -78,6 +76,7 @@ const shopApi = baseApi.injectEndpoints({
 
 export const {
   useCreateShopMutation,
+  useFindShopsVendorIdQuery,
   useFindAllShopsQuery,
   useFindShopByIdQuery,
   useUpdateShopMutation,

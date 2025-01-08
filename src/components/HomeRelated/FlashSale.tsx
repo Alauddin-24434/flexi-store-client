@@ -1,4 +1,5 @@
 // components/FlashSale.tsx
+import Image from "next/image";
 import Link from "next/link";
 
 const FlashSale = () => {
@@ -13,7 +14,7 @@ const FlashSale = () => {
       <div className="flash-products">
         {flashSaleProducts.map((product) => (
           <div key={product.id}>
-            <img src={product.image} alt={product.name} />
+            <Image width={100} height={100} src={product.image} alt={product.name} />
             <p>{product.name}</p>
           </div>
         ))}

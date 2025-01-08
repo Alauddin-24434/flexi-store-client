@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
@@ -44,7 +45,7 @@ const Products = () => {
                         <Link href={`/products/${product._id}`} key={product._id}>
                             <div className="relative mx-auto flex w-[270px] h-[322px] flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
                                 <div className="relative mx-auto w-full mt-3 flex  p-2 overflow-hidden" >
-                                    <img className="object-cover w-full  rounded-lg" src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="product image" />
+                                    <Image width={100} height={100} className="object-cover w-full  rounded-lg" src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="product image" />
                                     <span className="absolute top-0 left-0 m-2  bg-[#008ECC] px-2 text-center text-sm font-medium text-white">39% OFF</span>
                                 </div>
                                 <div className="mt-4 px-5 pb-5">

@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import React from 'react';
 
 const Cart = () => {
@@ -13,7 +14,7 @@ const Cart = () => {
                         <div className="grid grid-cols-3 items-center gap-4">
                             <div className="col-span-2 flex items-center gap-4">
                                 <div className="w-24 h-24 shrink-0 bg-white p-2 rounded-md">
-                                    <img src='https://readymadeui.com/images/product14.webp' className="w-full h-full object-contain" />
+                                    <Image src='https://readymadeui.com/images/product14.webp' alt='product' className="w-full h-full object-contain" width={100} height={100} />
                                 </div>
 
                                 <div>
