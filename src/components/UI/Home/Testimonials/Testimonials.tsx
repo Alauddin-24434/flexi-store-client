@@ -88,8 +88,8 @@ const Testimonials: React.FC = () => {
 
   return (
     <div>
-      <section className="py-24">
-        <div className="container mx-auto ">
+      <section className="py-24 bg-[#b2dede]">
+        <div className="lg:max-w-7xl max-w-xl mx-auto ">
           <div className="mb-14 flex flex-col justify-center items-center sm:flex-row sm:items-center sm:justify-between max-sm:gap-8">
             <h2 className="text-4xl text-center font-bold text-gray-900 lg:text-left">Testimonials</h2>
             <span className='flex gap-2'>

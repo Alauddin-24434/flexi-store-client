@@ -1,24 +1,25 @@
+import { TAddProduct } from '@/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product }:{product:TAddProduct}) => {
     return (
         <div>
 
-            <Link href={`/products/${product._id}`} key={product._id}>
-                <div className="relative mx-auto flex w-[270px] h-[322px] flex-col overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md">
-                    <div className="relative mx-auto w-full mt-3 flex  p-2 overflow-hidden" >
-                        <Image width={100} height={100} className="object-cover w-full  rounded-lg" src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="product image" />
-                        <span className="absolute top-0 left-0 m-2  bg-[#008ECC] px-2 text-center text-sm font-medium text-white">39% OFF</span>
+            <Link href={`/productDetails/${product.id}`} key={product.id}>
+                <div className="relative mx-auto flex w-[270px] h-[422px] flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-md">
+                    <div className="relative mx-auto w-full h-full  mt-3 flex  p-2 overflow-hidden" >
+                        <Image width={100} height={100} className="object-cover w-full h-full  rounded-lg" src={product?.thumbnailImage} alt="product image" unoptimized={true} />
+                        <span className="absolute top-0 left-0 m-2  bg-[#008ECC] px-2 text-center text-sm font-medium text-white">{product?.discount}% OFF</span>
                     </div>
                     <div className="mt-4 px-5 pb-5">
                         <div>
-                            <h5 className="text-sm font-medium text-slate-900">Nike Air MX Super 2500 - Red</h5>
+                            <h5 className="text-sm font-medium text-slate-900">{product?.name}</h5>
                         </div>
                         <div className="mt-2 mb-5 flex items-center justify-between">
                             <p>
-                                <span className="text-xl font-bold text-slate-900">$449</span>
+                                <span className="text-xl font-bold text-slate-900">${product?.price}</span>
 
                             </p>
                             <div className="flex items-center">

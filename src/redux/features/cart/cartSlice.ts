@@ -1,80 +1,64 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { RootState } from "@/redux/store";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-// Define the structure of a cart item
 interface CartItem {
-    _id: string;
-    userId: string;
-    name: string;
-    category: string;
-    price: number;
-    thumbnailImage: string;
-    quantity: number;
-    isAvailable: boolean;
+  id: string;
+  userId: string | null;
+  name: string;
+  price: string;
+  quantity: number;
+  image: string;
 }
 
-// Define the structure of the cart state
 interface CartState {
-    items: CartItem[];
+  items: CartItem[];
 }
 
-// Initial state with the CartState type
 const initialState: CartState = {
-    items: [],
+  items: [],
 };
 
 const cartSlice = createSlice({
-    name: "cart",
-    initialState,
-    reducers: {
-        addToCart: (state, action) => {
-            const product: CartItem = action.payload;
+  name: "cart",
+  initialState,
+  reducers: {
+    addToCart: (state, action: PayloadAction<CartItem>) => {
+      const existingItem = state.items.find(
+        (item) => item.id === action.payload.id
+      );
 
-            // Find existing product in the cart for the same user
-            const existingProduct = state.items.find(
-                (item) => item._id === product._id && item.userId === product.userId
-            );
-
-            if (existingProduct) {
-                // If product already exists, update the quantity
-                existingProduct.quantity += product.quantity;
-            } else {
-                // If product does not exist, add it to the cart
-                state.items.push(product);
-            }
-        },
-        removeFromCart: (state, action) => {
-            const { userId, productId } = action.payload;
-            // Filter out the specific product for the user
-            state.items = state.items.filter(
-                (item) => !(item._id === productId && item.userId === userId)
-            );
-        },
-        clearCart: (state, action) => {
-            const { userId } = action.payload;
-            // Remove all products for the specific user
-            state.items = state.items.filter((item) => item.userId !== userId);
-        },
-        increaseQuantity: (state, action) => {
-            const { userId, productId } = action.payload;
-            const product = state.items.find(
-                (item) => item._id === productId && item.userId === userId
-            );
-            if (product) {
-                product.quantity += 1;
-            }
-        },
-        decreaseQuantity: (state, action) => {
-            const { userId, productId } = action.payload;
-            const product = state.items.find(
-                (item) => item._id === productId && item.userId === userId
-            );
-            if (product && product.quantity > 1) {
-                product.quantity -= 1;
-            }
-        },
+      if (existingItem) {
+        existingItem.quantity += action.payload.quantity;
+      } else {
+        state.items.push(action.payload);
+      }
     },
+
+    updateQuantity: (
+      state,
+      action: PayloadAction<{ id: string; quantity: number }>
+    ) => {
+      const item = state.items.find((item) => item.id === action.payload.id);
+
+      if (item) {
+        item.quantity = action.payload.quantity;
+      }
+    },
+
+    removeFromCart: (state, action: PayloadAction<string>) => {
+      state.items = state.items.filter((item) => item.id !== action.payload);
+    },
+    clearCart: (state) => {
+      state.items = [];
+    },
+  },
 });
 
-// Export the action creators and reducer
-export const { addToCart, removeFromCart, clearCart, increaseQuantity, decreaseQuantity } = cartSlice.actions;
+export const { addToCart, updateQuantity, removeFromCart, clearCart } =
+  cartSlice.actions;
+
 export default cartSlice.reducer;
+export const useCurrentCartItems = (state: RootState): CartItem[] => {
+  return state.cart.items;
+};
+

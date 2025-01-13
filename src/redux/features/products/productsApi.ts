@@ -36,12 +36,20 @@ const productsApi = baseApi.injectEndpoints({
     }),
 
     // Find food item by ID
+    findFlasSaleProducts: builder.query({
+      query: () => ({
+        url: `products/flashSale`,
+        method: "GET",
+      }),
+        providesTags: ["product"], 
+    }),
+    // Find food item by ID
     findProductById: builder.query({
       query: (id) => ({
         url: `products/${id}`,
         method: "GET",
       }),
-      //   providesTags: ["food"], // নির্দিষ্ট Food item ক্যাশে সংরক্ষণ করবে
+        providesTags: ["product"], 
     }),
 
     // Update food item
@@ -71,4 +79,5 @@ export const {
   useFindProductByIdQuery,
   useUpdateFoodItemMutation,
   useDeleteFoodItemMutation,
+  useFindFlasSaleProductsQuery
 } = productsApi;

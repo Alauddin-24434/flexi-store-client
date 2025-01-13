@@ -25,7 +25,8 @@ console.log(data)
       price: 0,
       category: "",
       stock: 1,
-     
+      subcategory:'',
+      tags:[],
       thumbnailImage: "",
       additionalImages: [],
       discount: 0,
@@ -117,7 +118,7 @@ console.log(data)
             <option value="">Select a category</option>
             <option value="electronics">Electronics</option>
             <option value="clothing">Clothing</option>
-            <option value="home">Home</option>
+            
           </select>
           {errors.category && <p className="text-sm text-red-500">{errors.category.message}</p>}
         </div>

@@ -1,6 +1,7 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import React, { useState } from 'react';
+import Image from "next/image";
+import Link from "next/link";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 
 const Categories = () => {
     const categoryCard = [
@@ -21,41 +22,60 @@ const Categories = () => {
         { _id: "15", name: "Appliances", category: "appliances", image: "https://via.placeholder.com/150x100?text=Appliances" },
         { _id: "16", name: "Books", category: "books", image: "https://via.placeholder.com/150x100?text=Books" },
     ];
-    
 
-    const [showAll, setShowAll] = useState(false);
-
-    const toggleShowAll = () => {
-        setShowAll(!showAll);
+    const responsive = {
+        superLargeDesktop: {
+            // the naming can be any, depends on you.
+            breakpoint: { max: 4000, min: 3000 },
+            items: 5
+        },
+        desktop: {
+            breakpoint: { max: 3000, min: 1024 },
+            items: 6
+        },
+        tablet: {
+            breakpoint: { max: 1024, min: 464 },
+            items: 2
+        },
+        mobile: {
+            breakpoint: { max: 464, min: 0 },
+            items: 1
+        }
     };
 
-    
 
     return (
-        <section className='py-10'>
-            <div className='container mx-auto'>
-                <div className='flex justify-between items-center mb-4'>
-                    <p className='text-xl font-semibold'>Browse By Category</p>
-                    <span className='flex gap-2'>
-                        <button
-                           className='rounded-md p-2 border border-[#008ECC]  px-4 hover:bg-[#008ECC] hover:text-white'
-                            onClick={toggleShowAll}
-                        >
-                            {showAll ? 'Show Less' : 'View All'}
-                        </button>
-                    </span>
-                </div>
-                <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 lg:grid-cols-9 gap-2'>
-                    {categoryCard?.slice(0, showAll ? categoryCard.length : 9)?.map((cat) => (
-                        <Link href={`/products?${cat?.category}`} key={cat._id} >
-                             <div  className='w-full md:w-[170px] lg:w-[170px] h-[145px] flex flex-col items-center justify-center border rounded-lg p-2 bg-gray-50'>
-                            <Image width={100} height={100} src={cat.image} alt={cat.name} className='w-full  object-cover rounded-md' />
-                            <span className='text-center mt-2 font-medium text-lg'>{cat.name}</span>
-                        </div>
+        <section className="py-10 bg-[#b2dede]">
+            <div className="lg:max-w-7xl max-w-xl mx-auto">
+               
+
+                <Carousel
+                    responsive={responsive}
+                    infinite={true}
+                    autoPlay={true}
+                    autoPlaySpeed={3000}
+                    arrows={true}
+                    swipeable={true}
+                    draggable={true}
+                >
+                    {categoryCard.map((cat) => (
+                        <Link href={`/products?${cat.category}`} key={cat._id}>
+                            <div className="flex flex-col items-center">
+                                <div className="w-40 h-40  border rounded-md  bg-gray-50 cursor-pointer hover:shadow-lg">
+                                    <Image
+                                        width={150}
+                                        height={100}
+                                        src={cat.image}
+                                        alt={cat.name}
+                                        className="object-cover rounded-md "
+                                    />
+
+                                </div>
+                                <span className="text-center mt-2 font-medium text-lg">{cat.name}</span>
+                            </div>
                         </Link>
-                       
                     ))}
-                </div>
+                </Carousel>
             </div>
         </section>
     );

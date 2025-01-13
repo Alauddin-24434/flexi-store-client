@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authSlice from './features/auth/authSlice';
-import cartSlice from './features/cart/cartSlice'; // Import the cart slice
+import cartSlice from './features/cart/cartSlice';
 import { baseApi } from './api/baseApi';
 import storage from 'redux-persist/lib/storage';
 import { FLUSH, PAUSE, PERSIST, persistReducer, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
@@ -12,15 +12,19 @@ const authPersistConfig = {
     storage,
 };
 
-// Persist config for cart
-const cartPersistConfig = {
-    key: 'cart',
+// persit config for cart
+
+const cartPersitConfig={
+    key:'cart',
     storage,
 };
 
-// Create persisted reducers for auth and cart
+
+// Create persisted reducers for auth 
 const persistedAuthReducer = persistReducer(authPersistConfig, authSlice);
-const persistedCartReducer = persistReducer(cartPersistConfig, cartSlice);
+
+// Create persisted reducers for  cart
+const persistedCartReducer= persistReducer(cartPersitConfig, cartSlice);
 
 export const store = configureStore({
     reducer: {

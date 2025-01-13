@@ -4,16 +4,16 @@ import { useFindAllProductQuery } from "@/redux/features/products/productsApi";
 import ProductCard from "@/components/Shared/ProductCard/ProductCard";
 import { TAddProduct } from "@/types";
 import Pagination from "@/components/Shared/Pagination/Pagination";
+import SkeletonCard from "@/components/Shared/Skelton/Skelton";
+
 
 const ProductsPage: React.FC = () => {
-  // States for query parameters
   const [category, setCategory] = useState<string>("");
   const [search, setSearch] = useState<string>("");
-  const [sorting, setSorting] = useState<string>(""); // Example: "price_asc", "price_desc"
+  const [sorting, setSorting] = useState<string>("");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 9;
 
-  // Fetch data using your query
   const { data, isLoading, error } = useFindAllProductQuery({
     page: currentPage,
     limit: itemsPerPage,
@@ -23,15 +23,14 @@ const ProductsPage: React.FC = () => {
     search,
   });
 
-  // Handlers
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setCategory(e.target.value);
-    setCurrentPage(1); // Reset to page 1 when filtering
+    setCurrentPage(1);
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
-    setCurrentPage(1); // Reset to page 1 when searching
+    setCurrentPage(1);
   };
 
   const handleSortingChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -42,54 +41,83 @@ const ProductsPage: React.FC = () => {
     setCurrentPage(page);
   };
 
-  // Render
-  if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Something went wrong. Please try again later.</p>;
 
   return (
-    <div>
-      <h1>Products</h1>
+   <div className="bg-[#e0f1f2]">
+     <div className="flex max-w-7xl mx-auto ">
+      {/* Sidebar */}
+      <div className="w-64 p-4 rounded-lg mr-4">
+        <h2 className="text-lg font-semibold mb-4">Filters</h2>
 
-      {/* Filter and Search */}
-      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "1rem" }}>
-        <select value={category} onChange={handleCategoryChange}>
-          <option value="">All Categories</option>
-          <option value="electronics">Electronics</option>
-          <option value="fashion">Fashion</option>
-          <option value="home">Home</option>
-          {/* Add more categories as needed */}
-        </select>
+        <div>
+          <label htmlFor="category" className="block text-sm font-medium">
+            Category
+          </label>
+          <select
+            id="category"
+            value={category}
+            onChange={handleCategoryChange}
+            className="mt-1 w-full p-2 border rounded-md shadow-sm"
+          >
+            <option value="">All Categories</option>
+            <option value="electronics">Electronics</option>
+            <option value="fashion">Fashion</option>
+            <option value="home">Home</option>
+          </select>
+        </div>
 
-        <input
-          type="text"
-          placeholder="Search products..."
-          value={search}
-          onChange={handleSearchChange}
-        />
+        <div className="mt-4">
+          <input
+            type="text"
+            placeholder="Search products..."
+            value={search}
+            onChange={handleSearchChange}
+            className="w-full p-2 border rounded-md shadow-sm"
+          />
+        </div>
 
-        <select value={sorting} onChange={handleSortingChange}>
-          <option value="">Sort By</option>
-          <option value="price_asc">Price: Low to High</option>
-          <option value="price_desc">Price: High to Low</option>
-          <option value="name_asc">Name: A to Z</option>
-          <option value="name_desc">Name: Z to A</option>
-        </select>
+        <div className="mt-4">
+          <label htmlFor="sorting" className="block text-sm font-medium">
+            Sort By
+          </label>
+          <select
+            id="sorting"
+            value={sorting}
+            onChange={handleSortingChange}
+            className="mt-1 w-full p-2 border rounded-md shadow-sm"
+          >
+            <option value="">Select Sorting</option>
+            <option value="price_asc">Price: Low to High</option>
+            <option value="price_desc">Price: High to Low</option>
+            <option value="name_asc">Name: A to Z</option>
+            <option value="name_desc">Name: Z to A</option>
+          </select>
+        </div>
       </div>
 
       {/* Product List */}
-      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 bg-slate- py-10'>
-        {data?.products?.map((product:TAddProduct) => (
-          <ProductCard key={product?.id} product={product} />
-        ))}
-      </div>
+      <div className="flex-1">
+     
 
-      {/* Pagination */}
-      <Pagination
-        currentPage={currentPage}
-        totalPages={data?.totalPages || 1}
-        onPageChange={handlePageChange}
-      />
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-3 gap-4 p-4">
+          {isLoading
+            ? Array.from({ length: 10 }).map((_, idx) => <SkeletonCard key={idx} />)
+            : data?.data?.map((product: TAddProduct) => (
+                <ProductCard key={product?.id} product={product} />
+              ))}
+        </div>
+
+        {!isLoading && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={data?.totalPages || 1}
+            onPageChange={handlePageChange}
+          />
+        )}
+      </div>
     </div>
+   </div>
   );
 };
 

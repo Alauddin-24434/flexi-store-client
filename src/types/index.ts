@@ -70,6 +70,8 @@ export interface TAddProduct {
   description: string;
   price: number;
   category: string;
+  subcategory?: string; // E.g., 'Headphones'
+  tags?: string[]; // E.g., ['audio', 'wireless', 'bluetooth']
   stock: number;
   thumbnailImage: string;
   additionalImages: string[];

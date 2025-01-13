@@ -8,10 +8,11 @@ import FlashSale from "@/components/UI/Home/FlashSale/FlashSale";
 import Footer from "@/components/Shared/Footer/Footer";
 import BlogTips from "@/components/UI/Home/BlogTips/BlogTips";
 import Testimonials from "@/components/UI/Home/Testimonials/Testimonials";
+import RecommendeProducts from "@/components/UI/Home/Recommended/Recommended";
 
 const HomePage = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen ">
       {/* Hero Section */}
       <HeroSection />
 
@@ -23,7 +24,7 @@ const HomePage = () => {
 
       {/* Product Grid Section */}
       <Products />
-
+<RecommendeProducts/>
       {/* Blog or Tips Section */}
       <BlogTips />
 

@@ -2,6 +2,7 @@
 import { useCreateShopMutation, useFindAllShopsQuery, useUpdateShopMutation } from "@/redux/features/shop/shopApi";
 import { useAppSelector } from "@/redux/hooks/hooks";
 import { Shop } from "@/types";
+import uploadImageToCloudnary from "@/utils/imageUploadCloudinary";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -10,6 +11,7 @@ const ShopManagement = () => {
 
   const [createShop] = useCreateShopMutation();
   const [updateShop] = useUpdateShopMutation();
+  const [logo, setLogo] = useState<string | null>(null)
   const [editingShop, setEditingShop] = useState<Shop | null>(null);
 
   const user = useAppSelector(state => state.auth.user);
@@ -20,14 +22,16 @@ const ShopManagement = () => {
     handleSubmit,
     reset,
     formState: { errors },
+    setValue
   } = useForm<Shop>();
 
   const onSubmit = async (formData: Shop) => {
     const payload = {
       ...formData,
+      logo: logo,
       vendorId: user?.id,
     };
-console.log("check",payload)
+    console.log("check", payload)
     try {
       if (editingShop) {
         // Update shop
@@ -53,9 +57,31 @@ console.log("check",payload)
     reset();
   };
 
+
+  const handleLogoImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+
+    const file = e.target.files?.[0];
+    if (file) {
+      try {
+
+        const url = await uploadImageToCloudnary(file);
+        setLogo(url);
+        setValue("logo", url)
+
+
+
+      } catch (error) {
+        console.error("Error uploading logo image", error)
+      }
+    }
+
+  }
+
+
+
   if (isLoading) return <p>Loading shops...</p>;
-   // TypeScript type guard for error object
-   if (error) {
+  // TypeScript type guard for error object
+  if (error) {
     const errorMessage = (error as { message: string }).message || 'An unexpected error occurred';
     return <p>Error fetching shops: {errorMessage}</p>;
   }
@@ -79,7 +105,7 @@ console.log("check",payload)
               </tr>
             </thead>
             <tbody>
-              {shops?.data?.map((shop:Shop) => (
+              {shops?.data?.map((shop: Shop) => (
                 <tr key={shop.id}>
                   <td className="px-4 py-2">{shop.name}</td>
                   <td className="px-4 py-2">{shop.description}</td>
@@ -111,9 +137,8 @@ console.log("check",payload)
             <input
               type="text"
               {...register("name", { required: "Shop name is required" })}
-              className={`w-full p-2 border rounded ${
-                errors.name ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`w-full p-2 border rounded ${errors.name ? "border-red-500" : "border-gray-300"
+                }`}
             />
             {errors.name && (
               <p className="text-sm text-red-500">{errors.name.message}</p>
@@ -126,15 +151,26 @@ console.log("check",payload)
               {...register("description", {
                 required: "Description is required",
               })}
-              className={`w-full p-2 border rounded ${
-                errors.description ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`w-full p-2 border rounded ${errors.description ? "border-red-500" : "border-gray-300"
+                }`}
             ></textarea>
             {errors.description && (
               <p className="text-sm text-red-500">
                 {errors.description.message}
               </p>
             )}
+          </div>
+
+          <div>
+            <label className="block text-sm">Logo Image</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleLogoImageUpload}
+              className={`w-full p-2 border rounded ${errors.logo ? "border-red-500" : "border-gray-300"
+                }`}
+            />
+
           </div>
 
           <div>
