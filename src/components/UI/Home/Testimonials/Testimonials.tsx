@@ -91,7 +91,7 @@ const Testimonials: React.FC = () => {
       <section className="py-24 bg-[#b2dede]">
         <div className="lg:max-w-7xl max-w-xl mx-auto ">
           <div className="mb-14 flex flex-col justify-center items-center sm:flex-row sm:items-center sm:justify-between max-sm:gap-8">
-            <h2 className="text-4xl text-center font-bold text-gray-900 lg:text-left">Testimonials</h2>
+            <h2 className="text-4xl text-center font-bold text-gray-800  lg:text-left">Testimonials</h2>
             <span className='flex gap-2'>
               <button
                 className='rounded-md p-2 border border-[#008ECC]  px-4 hover:bg-[#008ECC] hover:text-white'

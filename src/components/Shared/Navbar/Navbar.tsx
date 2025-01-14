@@ -4,15 +4,22 @@ import { useState } from 'react';
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
   };
-  return (
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen((prev) => !prev);
+  };
+
+  return (
     <section>
-      <div className='bg-[#0b7670] py-2'>
-        <div className="flex lg:max-w-7xl max-w-xl mx-auto justify-between ">
+      {/* Top Bar */}
+      <div className="bg-[#0b7670] py-2">
+        <div className="flex lg:max-w-7xl max-w-xl mx-auto justify-between items-center px-4">
+          {/* Logo */}
           <div className="flex items-center">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -31,90 +38,111 @@ const Navbar = () => {
             <span className="ml-2 font-semibold text-[#FFFFFF]">MegaMart</span>
           </div>
 
-          <div className="ml-6 flex flex-1 gap-x-3">
+          {/* Search Bar */}
+          <div className="hidden lg:flex ml-6 flex-1 gap-x-3">
             <input
               type="text"
               className="w-full rounded-md border border-[#008ECC] px-3 py-2 text-sm"
-              defaultValue="Search"
+              placeholder="Search"
             />
           </div>
 
-          <div className="ml-2 flex">
-            <div className="flex cursor-pointer items-center gap-x-1 rounded-md py-2 px-4 hover:bg-gray-100">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 text-[#FFFFFF]"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path d="M4 3a2 2 0 100 4h12a2 2 0 100-4H4z" />
-                <path
-                  fillRule="evenodd"
-                  d="M3 8h14v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8zm5 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span className="text-sm font-medium text-[#FFFFFF]">Orders</span>
-            </div>
-
-            <div className="flex cursor-pointer items-center gap-x-1 rounded-md py-2 px-4 hover:bg-gray-100">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5 text-[#FFFFFF]"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span className="text-sm font-medium text-[#FFFFFF]">Favorites</span>
-            </div>
-
-            <div className="flex cursor-pointer items-center gap-x-1 rounded-md py-2 px-4 hover:bg-gray-100">
-              <div className="relative">
+          {/* Action Buttons */}
+          <div className="flex items-center">
+            <div className="hidden lg:flex">
+              <div className="flex cursor-pointer items-center gap-x-1 rounded-md py-2 px-4 hover:bg-gray-100">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-5 w-5 text-[#FFFFFF]"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                 >
-                  <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
+                  <path d="M4 3a2 2 0 100 4h12a2 2 0 100-4H4z" />
+                  <path
+                    fillRule="evenodd"
+                    d="M3 8h14v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8zm5 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"
+                    clipRule="evenodd"
+                  />
                 </svg>
-                <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 p-2 text-xs text-white">
-                  3
+                <span className="text-sm font-medium text-[#FFFFFF]">Orders</span>
+              </div>
+
+              <div className="flex cursor-pointer items-center gap-x-1 rounded-md py-2 px-4 hover:bg-gray-100">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 text-[#FFFFFF]"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                <span className="text-sm font-medium text-[#FFFFFF]">Favorites</span>
+              </div>
+
+              <div className="flex cursor-pointer items-center gap-x-1 rounded-md py-2 px-4 hover:bg-gray-100">
+                <div className="relative">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-[#FFFFFF]"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
+                  </svg>
+                  <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+                    3
+                  </span>
+                </div>
+                <span className="text-sm font-medium text-[#FFFFFF]">Cart</span>
+              </div>
+
+              <div className="ml-2 flex cursor-pointer items-center gap-x-1 rounded-md border border-[#008ECC] py-2 px-4 hover:bg-[#008ECC] hover:text-white">
+                <span className="text-sm font-medium">
+                  <Link href={'/login'}>Login</Link>
                 </span>
               </div>
-              <span className="text-sm font-medium text-[#FFFFFF]">Cart</span>
             </div>
 
-            <div className="ml-2 flex cursor-pointer items-center gap-x-1 rounded-md border border-[#008ECC] py-2 px-4 hover:bg-[#008ECC] hover:text-white">
-              <span className="text-sm font-medium"><Link href={'/login'}>Login</Link></span>
-            </div>
+            {/* Mobile Menu Button */}
+            <button
+              className="lg:hidden flex items-center text-white ml-4"
+              onClick={toggleMobileMenu}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            </button>
           </div>
         </div>
       </div>
 
-  
-
-        {/* <!-- Main navigation container --> */}
-        <nav
-      className="relative flex  w-full flex-wrap items-center justify-between bg-[#0d938e] py-2 text-neutral-500 shadow-dark-mild hover:text-neutral-700 focus:text-neutral-700 dark:bg-neutral-700 lg:py-4"
-    >
-      <div className="flex lg:max-w-7xl max-w-xl mx-auto w-full flex-wrap items-center justify-start  px-3">
-        {/* Dropdown */}
-        <div className="relative ms-2">
-          <button
-            className="flex items-center px-6 pb-2 pt-2.5 text-[#FFFFFF] font-medium transition duration-200 hover:text-black/80 focus:text-black/80 dark:text-white/60 dark:hover:text-white/80 dark:focus:text-white/80 lg:px-2"
-            onClick={toggleDropdown}
-            aria-expanded={isDropdownOpen}
-          >
-            Categories
-            <span className="ms-2 [&>svg]:w-5">
+      {/* Navigation Bar */}
+      <nav className={`relative ${isMobileMenuOpen ? "block" : "hidden lg:flex"} w-full flex-wrap bg-[#0d938e] py-4 text-white`}>
+        <div className="lg:max-w-7xl max-w-xl mx-auto flex flex-col lg:flex-row items-center px-4 gap-4">
+          <div className="relative">
+            <button
+              className="flex items-center gap-2"
+              onClick={toggleDropdown}
+            >
+              Categories
               <svg
                 xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
                 viewBox="0 0 20 20"
                 fill="currentColor"
               >
@@ -124,45 +152,33 @@ const Navbar = () => {
                   clipRule="evenodd"
                 />
               </svg>
-            </span>
-          </button>
-          
-          <ul
-            className={`absolute z-[1000] mt-2 min-w-max list-none rounded-lg bg-white shadow-lg dark:bg-surface-dark ${
-              isDropdownOpen ? "block" : "hidden"
-            }`}
-          >
-            <li>
-              <a
-                className="block w-full whitespace-nowrap bg-white px-4 py-2 text-sm text-neutral-700 hover:bg-zinc-200/60 dark:bg-surface-dark dark:text-white dark:hover:bg-neutral-800/25"
-                href="#"
-              >
-                Action
-              </a>
-            </li>
-            <li>
-              <a
-                className="block w-full whitespace-nowrap bg-white px-4 py-2 text-sm text-neutral-700 hover:bg-zinc-200/60 dark:bg-surface-dark dark:text-white dark:hover:bg-neutral-800/25"
-                href="#"
-              >
-                Another action
-              </a>
-            </li>
-            <li>
-              <a
-                className="block w-full whitespace-nowrap bg-white px-4 py-2 text-sm text-neutral-700 hover:bg-zinc-200/60 dark:bg-surface-dark dark:text-white dark:hover:bg-neutral-800/25"
-                href="#"
-              >
-                Something else here
-              </a>
-            </li>
-          </ul>
-        </div>
-        
-        <div className="flex justify-center gap-8 text-[#FFFFFF] font-medium">
-          <Link href="/">Home</Link>
-          <Link href="/products">Products</Link>
-          <Link href="/shop">Shop</Link>
+            </button>
+            <ul
+              className={`absolute z-50 mt-2 min-w-max list-none rounded-lg bg-white shadow-lg text-black ${isDropdownOpen ? "block" : "hidden"}`}
+            >
+              <li>
+                <a className="block px-4 py-2 text-sm hover:bg-gray-200" href="#">
+                  Action
+                </a>
+              </li>
+              <li>
+                <a className="block px-4 py-2 text-sm hover:bg-gray-200" href="#">
+                  Another action
+                </a>
+              </li>
+              <li>
+                <a className="block px-4 py-2 text-sm hover:bg-gray-200" href="#">
+                  Something else here
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div className="flex flex-col lg:flex-row gap-4">
+            <Link href="/">Home</Link>
+            <Link href="/products">Products</Link>
+            <Link href="/shop">Shop</Link>
+
           <Link href="/cart">Cart</Link>
           <Link href="/checkout">Checkout</Link>
         </div>

@@ -152,27 +152,27 @@ const Cart = () => {
           <div className="bg-white p-6 rounded-lg shadow-md md:sticky top-6">
             <h3 className="text-xl font-semibold text-gray-800 mb-6">Order Summary</h3>
             <ul className="text-gray-600 space-y-4">
-              <li className="flex justify-between">
+              {/* <li className="flex justify-between">
                 <span>Subtotal:</span>
                 <span className="font-bold">
                   $
                   {cartItems
                     ?.reduce((total, item) => total + Number(item.price) * item.quantity, 0)
                     .toFixed(2)}
-                </span>
-              </li>
-              <li className="flex justify-between">
+                </span> */}
+              {/* </li> */}
+              {/* <li className="flex justify-between">
                 <span>Discount:</span>
                 <span className="font-bold">$0.00</span>
-              </li>
-              <li className="flex justify-between">
+              </li> */}
+              {/* <li className="flex justify-between">
                 <span>Shipping:</span>
                 <span className="font-bold">$2.00</span>
-              </li>
-              <li className="flex justify-between">
+              </li> */}
+              {/* <li className="flex justify-between">
                 <span>Tax:</span>
                 <span className="font-bold">$4.00</span>
-              </li>
+              </li> */}
               <li className="flex justify-between font-bold text-lg">
                 <span>Total:</span>
                 <span>
@@ -181,7 +181,7 @@ const Cart = () => {
                     cartItems?.reduce(
                       (total, item) => total + Number(item.price) * item.quantity,
                       0
-                    ) + 2 + 4
+                    ) 
                   ).toFixed(2)}
                 </span>
               </li>

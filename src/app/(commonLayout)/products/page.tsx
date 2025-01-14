@@ -102,7 +102,7 @@ const ProductsPage: React.FC = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-3 gap-4 p-4">
           {isLoading
-            ? Array.from({ length: 10 }).map((_, idx) => <SkeletonCard key={idx} />)
+            ? Array.from({ length: 6 }).map((_, idx) => <SkeletonCard key={idx} />)
             : data?.data?.map((product: TAddProduct) => (
                 <ProductCard key={product?.id} product={product} />
               ))}

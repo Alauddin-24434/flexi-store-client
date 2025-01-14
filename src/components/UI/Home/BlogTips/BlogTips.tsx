@@ -7,11 +7,11 @@ interface BlogTip {
   description: string;
   image: string;
   link: string;
-  content:string;
+  content: string;
 }
 
 const BlogTips: React.FC = () => {
-   const blogTips:BlogTip[] = [
+  const blogTips: BlogTip[] = [
     {
       id: 1,
       title: "Choosing the Right Product Online",
@@ -57,40 +57,50 @@ const BlogTips: React.FC = () => {
       `,
     },
   ];
-  
+
 
   return (
-  <section className="blog-tips-section py-8 bg-[#e0f1f2]">
+    <section className="blog-tips-section py-8 bg-[#e0f1f2]">
       <div className="lg:max-w-7xl max-w-xl mx-auto">
-     
-        <h2 className='text-4xl font-bold text-black pb-8'>Tips and Advice</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {blogTips.map((tip) => (
-           
-         
-                <div key={tip?.id} className="group block rounded-xl overflow-hidden focus:outline-none" >
-                  <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5">
-                    <div className="shrink-0 relative rounded-xl overflow-hidden w-full sm:w-56 h-44">
-                      <img className="group-hover:scale-105 group-focus:scale-105 transition-transform duration-500 ease-in-out size-full absolute top-0 start-0 object-cover rounded-xl" src="https://images.unsplash.com/photo-1540575861501-7cf05a4b125a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=320&q=80" alt="Blog Image"/>
-                    </div>
-            
-                    <div className="grow">
-                      <h3 className="text-lg font-semibold text-gray-800 group-hover:text-gray-600 dark:text-neutral-300 dark:group-hover:text-white">
-                        {tip?.title}
-                      </h3>
-                      <p className="mt-3 text-gray-600 dark:text-neutral-400">
-                       {tip?.description}
-                      </p>
-                      <p className="mt-4 inline-flex items-center gap-x-1 text-sm text-blue-600 decoration-2 group-hover:underline group-focus:underline font-medium dark:text-blue-500">
-                        Read more
-                        <svg className="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                      </p>
-                    </div>
+        <div className='py-8'>
+          <h2 className='text-4xl font-bold text-gray-800 '>Tips and Advice Just For You</h2>
+        </div>
+        <div className='flex flex-col sm:flex-col md:flex-row lg:flex-row items-center gap-4 '>
+          <div className="flex flex-col  gap-6">
+            {blogTips.map((tip) => (
+
+
+              <div key={tip?.id} className="group block rounded-2xl overflow-hidden focus:outline-none border border-gray-800 w-[270px] md:w-full lg:w-full" >
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5">
+                  <div className="shrink-0 relative rounded-xl overflow-hidden w-full sm:w-56 h-44">
+                    <img className="group-hover:scale-105 group-focus:scale-105 transition-transform duration-500 ease-in-out size-full absolute top-0 start-0 object-cover rounded-xl" src="https://images.unsplash.com/photo-1540575861501-7cf05a4b125a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=320&q=80" alt="Blog Image" />
+                  </div>
+
+                  <div className="grow p-3">
+                    <h3 className="text-lg font-semibold text-gray-800 group-hover:text-gray-600 dark:text-neutral-300 dark:group-hover:text-white">
+                      {tip?.title}
+                    </h3>
+                    <p className="mt-3 text-gray-600 dark:text-neutral-400">
+                      {tip?.description}
+                    </p>
+                    <p className="mt-4 inline-flex cursor-pointer items-center gap-x-1 text-sm text-blue-600 decoration-2 group-hover:underline group-focus:underline font-medium dark:text-blue-500">
+                      Read more
+                      <svg className="shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg>
+                    </p>
                   </div>
                 </div>
-        
-   
-          ))}
+              </div>
+
+
+            ))}
+          </div>
+          <div className='flex flex-col justify-evenly items-center w-[270px] md:w-1/2 lg:1/2 h-[580px] border bg-[#0d938f] rounded-2xl border-gray-800'>
+            {/* <div>
+              <p className='text-lg font-bold text-[#FFFFFF]'>Insta360 GO 3S Action Camera - White</p>
+              <span className='text-white float-right bg-orange-500 px-4 mt-2 rounded-lg'>20% Off</span>
+            </div> */}
+            <Image className="w-full h-full object-cover rounded-2xl" width={100} height={100} unoptimized src="https://i.ibb.co.com/12ygYVx/feature-office-long.png" alt="image" />
+          </div>
         </div>
       </div>
     </section>

@@ -1,6 +1,6 @@
 "use client";
 
-import ScrollToTop from "@/components/HomeRelated/ScrollToTop";
+
 import HeroSection from "@/components/Shared/HeroSection/HeroSection";
 import Categories from "@/components/UI/Home/Categiries/Categories";
 import Products from "@/components/UI/Home/Products/Products";
@@ -30,9 +30,6 @@ const HomePage = () => {
 
       {/* Testimonials Section */}
       <Testimonials />
-
-      {/* Scroll to Top */}
-      <ScrollToTop />
 
       {/* Footer */}
       <Footer />

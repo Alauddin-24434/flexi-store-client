@@ -39,48 +39,50 @@ const HeroSection: React.FC = () => {
   }, [isPaused, slides.length]);
 
   return (
-    <div className="relative min-h-[70vh] w-full overflow-hidden bg-[#b2dede]">
+    <div className="relative min-h-[50vh] md:min-h-[70vh] w-full overflow-hidden bg-[#b2dede]">
       {/* Slides */}
-      <div className="relative max-w-7xl  mx-auto px-6">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {slides.map((slide, index) => (
           <div
             key={index}
-            className={`absolute w-full flex flex-col sm:flex-row items-center sm:items-start justify-start md:top-52 transition-opacity duration-1000 ${
+            className={`absolute w-full flex flex-wrap items-center justify-between transition-opacity duration-1000 ${
               index === currentSlideIndex ? "opacity-100 z-10" : "opacity-0 z-0"
             }`}
           >
             {/* Slide Content */}
-            <div className="sm:w-2/3 lg:w-2/5 flex flex-col z-20 text-left">
-              <h1 className="font-bebas-neue uppercase text-3xl sm:text-6xl font-black text-gray-800 leading-none">
+            <div className="w-full md:w-2/5 text-center md:text-left">
+              <h1 className="font-bebas-neue uppercase text-xl md:text-3xl lg:text-5xl font-black text-gray-800 leading-tight">
                 {slide.title}
               </h1>
-              <p className="mt-4 text-sm sm:text-base text-gray-700">{slide.description}</p>
-              <div className="flex mt-8">
+              <p className="mt-4 text-sm sm:text-base md:text-lg text-gray-700">
+                {slide.description}
+              </p>
+              <div className="flex flex-wrap justify-center md:justify-start mt-6 gap-4">
                 <a
                   href="#"
-                  className="uppercase py-2 px-4 rounded-lg bg-[#0d938f] text-white text-md mr-4 hover:bg-[#0b7671]"
+                  className="uppercase py-2 px-3 sm:py-3 sm:px-5 rounded-md bg-[#0d938f] text-white text-sm sm:text-base hover:bg-[#0b7671]"
                 >
-                  Get started
+                  Get Started
                 </a>
                 <a
                   href="#"
-                  className="uppercase py-2 px-4 rounded-lg bg-transparent border-2 border-[#0d938f] text-[#0d938f] hover:bg-[#0b7671] hover:text-white text-md"
+                  className="uppercase py-2 px-3 sm:py-3 sm:px-5 rounded-md border border-[#0d938f] text-[#0d938f] text-sm sm:text-base hover:bg-[#0b7671] hover:text-white"
                 >
-                 Tips and Advice
+                  Tips and Advice
                 </a>
               </div>
             </div>
             {/* Slide Image */}
-            <div className="hidden sm:block sm:w-1/3 lg:w-3/5 relative">
-            
-              <Image
-                src={slide.imgSrc}
-                alt={slide.imgAlt}
-                width={500}
-                height={500}
-                className="max-w-xs md:max-w-md m-auto"
-                unoptimized
-              />
+            <div className="w-full md:w-3/5 flex justify-center mt-6 md:mt-0">
+              <div className="w-60 h-60 md:w-[400px] md:h-[400px] lg:w-[500px] lg:h-[500px] relative">
+                <Image
+                  src={slide.imgSrc}
+                  alt={slide.imgAlt}
+                  fill
+                  className="object-contain"
+                  unoptimized
+                />
+              </div>
             </div>
           </div>
         ))}

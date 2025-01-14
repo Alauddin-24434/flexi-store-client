@@ -1,84 +1,47 @@
 
 import Image from 'next/image';
-import { useFindFlasSaleProductsQuery } from '@/redux/features/products/productsApi';
+import { useFindAllProductQuery, } from '@/redux/features/products/productsApi';
 import { TAddProduct } from '@/types';
 
 import SkeletonCard from '@/components/Shared/Skelton/Skelton';
 
 const RecommendeProducts = () => {
-    const { data, isLoading } = useFindFlasSaleProductsQuery(undefined)
-
+      const { data ,isLoading} = useFindAllProductQuery({
+            page: 1,
+            limit: 4,
+    
+    
+        });
 
 
     return (
         <section className='bg-[#b2dede]'>
             <div className='lg:max-w-7xl max-w-xl mx-auto'>
                 <div className='py-8'>
-                    <h2 className='text-4xl font-bold text-black'>Recommended For You</h2>
+                    <h2 className='text-4xl font-bold text-gray-800 '>Recommended For You</h2>
                 </div>
-                <div className="m-2  overflow-hidden rounded-xl border shadow-lg">
-                    <div className="flex flex-col justify-between items-center overflow-hidden bg-[#0d938f] sm:flex-row md:h-60">
+                
+                    <div className="flex flex-col md:flex-row lg:flex-row justify-center md:justify-between lg:justify-between items-center overflow-hidden bg-[#0d938f] border  w-[270px] mx-auto md:w-full lg:full rounded-2xl  md:h-60">
 
                         <Image width={100} height={100} unoptimized className="h-52 w-52   object-cover" src="https://i.ibb.co.com/jWpMs3b/61-I6f9-F3-TNL-AC-UF1000-1000-QL80-prev-ui.png" alt="image" />
-                        {/* Flash Sale Related Text and Countdown */}
-                        <div style={{
-
-                            padding: "1rem",
-                            borderRadius: "8px",
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            marginBottom: "1rem"
-                        }}>
-                            {/* Flash Sale Text */}
-                            <div
-                            >
-                               
-                                <p className='text-4xl font-bold text-[#FFFFFF]'>
-                                     Hurry, limited time offer!
-                                </p>
-                            </div>
-
-                            {/* Countdown Timer */}
-                            <div style={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                gap: "10px",
-                                fontSize: "18px",
-                                fontWeight: "bold",
-                                color: "#1CD15D"
-                            }}>
-                                <div>
-                                    <span style={{ display: "block", color:"black" ,fontSize: "24px" }}>02</span>
-                                    <span style={{ fontSize: "12px",  color:"black" }}>Hours</span>
-                                </div>
-                                :
-                                <div>
-                                    <span style={{ display: "block", color:"black", fontSize: "24px" }}>34</span>
-                                    <span style={{ fontSize: "12px",  color:"black" }}>Minutes</span>
-                                </div>
-                                :
-                                <div>
-                                    <span style={{ display: "block", color:"black", fontSize: "24px" }}>56</span>
-                                    <span style={{ fontSize: "12px",  color:"black" }}>Seconds</span>
-                                </div>
-                            </div>
-                        </div>
+                        {/* recomended*/}
+                       <div className='flex flex-col justify-center items-center'>
+                       <h2 className='text-4xl font-bold text-[#FFFFFF]'>Top Picks for You</h2>
+                       <p className='text-lg text-[#FFFFFF] mt-2'>Discover our curated selection of top-rated products, just for you!</p>
+                       </div>
 
                         <Image width={100} height={100} unoptimized className="h-52 w-52     object-cover" src="https://i.ibb.co.com/6Ythmvd/251641-P4-PME7-208-removebg-preview.png" alt="image" />
                     </div>
-                </div>
+                
 
                 <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-6  py-10'>
                     {isLoading
-                        ? Array.from({ length: 10 }).map((_, idx) => <SkeletonCard key={idx} />)
+                        ? Array.from({ length: 4 }).map((_, idx) => <SkeletonCard key={idx} />)
                         : data?.data?.map((product: TAddProduct) => (
                             
         
        
-        <div key={product?.id} className="flex flex-col gap-4 rounded-lg shadow-lg bg-white dark:bg-[#262525]">
+        <div key={product?.id} className="flex flex-col gap-4 rounded-lg shadow-lg bg-white dark:bg-[#262525] w-[270px] mx-auto">
             {/* <!-- Card Image --> */}
             <Image width={100} height={100} unoptimized className="w-[16rem] h-[12rem] sm:w-[18rem] sm:h-[14rem] object-center aspect-square rounded-t-lg" src={product?.thumbnailImage} alt="Card Image" />
 
