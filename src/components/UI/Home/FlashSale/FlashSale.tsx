@@ -74,7 +74,7 @@ const FlashSale = () => {
                 <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-6  py-10'>
                     {isLoading
                         ? Array.from({ length: 4 }).map((_, idx) => <SkeletonCard key={idx} />)
-                        : data?.data?.map((product: TAddProduct) => (
+                        : data?.data?.slice(0,4).map((product: TAddProduct) => (
                             <ProductCard key={product?.id} product={product} />
                         ))}
                 </div>

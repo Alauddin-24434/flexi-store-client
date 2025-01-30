@@ -1,29 +1,55 @@
 "use client";
-import Link from 'next/link';
-import { useState } from 'react';
+import Link from "next/link";
+import { useState, useEffect, useRef } from "react";
+import { BiSolidLogIn } from "react-icons/bi";
 
-const Navbar = () => {
+const Navbar=()=> {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [categories, setCategories] = useState<{ category: string }[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen((prev) => !prev);
-  };
+  const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
+  const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen((prev) => !prev);
-  };
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch("https://flexi-store-backend.vercel.app/categories");
+        const data = await response.json();
+        setCategories(data);
+      } catch (error) {
+        console.error("Failed to fetch categories:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+  console.log(categories)
 
   return (
     <section>
       {/* Top Bar */}
       <div className="bg-[#0b7670] py-2">
-        <div className="flex lg:max-w-7xl max-w-xl mx-auto justify-between items-center px-4">
+        <div className="flex max-w-7xl mx-auto justify-between items-center px-4">
           {/* Logo */}
-          <div className="flex items-center">
+          <Link href="/" className="flex items-center text-white font-semibold">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6 text-[#FFFFFF]"
+              className="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -35,11 +61,11 @@ const Navbar = () => {
                 d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"
               />
             </svg>
-            <span className="ml-2 font-semibold text-[#FFFFFF]">MegaMart</span>
-          </div>
+            <span className="ml-2">MegaMart</span>
+          </Link>
 
           {/* Search Bar */}
-          <div className="hidden lg:flex ml-6 flex-1 gap-x-3">
+          <div className="hidden lg:flex flex-1 ml-6">
             <input
               type="text"
               className="w-full rounded-md border border-[#008ECC] px-3 py-2 text-sm"
@@ -48,147 +74,73 @@ const Navbar = () => {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex items-center">
-            <div className="hidden lg:flex">
-              <div className="flex cursor-pointer items-center gap-x-1 rounded-md py-2 px-4 hover:bg-gray-100">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-[#FFFFFF]"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path d="M4 3a2 2 0 100 4h12a2 2 0 100-4H4z" />
-                  <path
-                    fillRule="evenodd"
-                    d="M3 8h14v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8zm5 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <span className="text-sm font-medium text-[#FFFFFF]">Orders</span>
-              </div>
-
-              <div className="flex cursor-pointer items-center gap-x-1 rounded-md py-2 px-4 hover:bg-gray-100">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-[#FFFFFF]"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <span className="text-sm font-medium text-[#FFFFFF]">Favorites</span>
-              </div>
-
-              <div className="flex cursor-pointer items-center gap-x-1 rounded-md py-2 px-4 hover:bg-gray-100">
-                <div className="relative">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-[#FFFFFF]"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
-                  </svg>
-                  <span className="absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-xs text-white">
-                    3
-                  </span>
-                </div>
-                <span className="text-sm font-medium text-[#FFFFFF]">Cart</span>
-              </div>
-
-              <div className="ml-2 flex cursor-pointer items-center gap-x-1 rounded-md border border-[#008ECC] py-2 px-4 hover:bg-[#008ECC] hover:text-white">
-                <span className="text-sm font-medium">
-                  <Link href={'/login'}>Login</Link>
-                </span>
-              </div>
-            </div>
-
+          <div className="flex items-center space-x-4">
+            <Link href="/orders" className="flex items-center gap-1 text-white hover:text-gray-300">
+              <span>Orders</span>
+            </Link>
+            <Link href="/cart" className="flex items-center gap-1 text-white hover:text-gray-300">
+              <span>Cart</span>
+            </Link>
+            <Link href="/login" className="flex items-center gap-1 text-white hover:text-gray-300">
+              <BiSolidLogIn className="h-5 w-5" />
+              <span>Login</span>
+            </Link>
             {/* Mobile Menu Button */}
-            <button
-              className="lg:hidden flex items-center text-white ml-4"
-              onClick={toggleMobileMenu}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
+            <button className="lg:hidden text-white" onClick={toggleMobileMenu}>
+              ☰
             </button>
           </div>
         </div>
       </div>
 
       {/* Navigation Bar */}
-      <nav className={`relative ${isMobileMenuOpen ? "block" : "hidden lg:flex"} w-full flex-wrap bg-[#0d938e] py-4 text-white`}>
-        <div className="lg:max-w-7xl max-w-xl mx-auto flex flex-col lg:flex-row items-center px-4 gap-4">
-          <div className="relative">
+      <nav className={`w-full bg-[#0d938e] py-4 text-white ${isMobileMenuOpen ? "block" : "hidden lg:block"}`}>
+        <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center px-4 gap-4">
+          {/* Categories Dropdown */}
+          <div className="relative" ref={dropdownRef}>
             <button
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 cursor-pointer"
               onClick={toggleDropdown}
+              aria-expanded={isDropdownOpen}
             >
               Categories
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                  clipRule="evenodd"
-                />
-              </svg>
             </button>
             <ul
-              className={`absolute z-50 mt-2 min-w-max list-none rounded-lg bg-white shadow-lg text-black ${isDropdownOpen ? "block" : "hidden"}`}
+              className={`absolute z-50 top-full mt-2 left-0 bg-white text-black shadow-lg rounded-md overflow-hidden ${
+                isDropdownOpen ? "block" : "hidden"
+              }`}
             >
-              <li>
-                <a className="block px-4 py-2 text-sm hover:bg-gray-200" href="#">
-                  Action
-                </a>
-              </li>
-              <li>
-                <a className="block px-4 py-2 text-sm hover:bg-gray-200" href="#">
-                  Another action
-                </a>
-              </li>
-              <li>
-                <a className="block px-4 py-2 text-sm hover:bg-gray-200" href="#">
-                  Something else here
-                </a>
-              </li>
+              {
+                categories.map((cat, index) => (
+                  <li key={index} className="px-4 py-2 border-b last:border-0 hover:bg-gray-100 ">
+                  <Link href={{ pathname: "/products", query: { category: cat.category.toLowerCase() } }} onClick={() => setIsDropdownOpen(false)}>
+                      <span className="block px-4 py-2 text-sm cursor-pointer">{cat?.category}</span>
+                    </Link>
+                  </li>
+          
+              ))}
             </ul>
           </div>
 
+          {/* Navigation Links */}
           <div className="flex flex-col lg:flex-row gap-4">
-            <Link href="/">Home</Link>
-            <Link href="/products">Products</Link>
-            <Link href="/shop">Shop</Link>
-
-          <Link href="/cart">Cart</Link>
-          <Link href="/checkout">Checkout</Link>
+            <Link href="/" className="hover:text-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
+              Home
+            </Link>
+            <Link href="/products" className="hover:text-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
+              Products
+            </Link>
+            <Link href="/cart" className="hover:text-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
+              Cart
+            </Link>
+            <Link href="/checkout" className="hover:text-gray-200" onClick={() => setIsMobileMenuOpen(false)}>
+              Checkout
+            </Link>
+          </div>
         </div>
-      
-      </div>
-    </nav>
-      
+      </nav>
     </section>
-
   );
-};
+}
 
 export default Navbar;

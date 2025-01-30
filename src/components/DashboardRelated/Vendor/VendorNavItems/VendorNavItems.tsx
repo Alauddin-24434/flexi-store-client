@@ -1,5 +1,5 @@
 "use client";
-import { FaStore, FaBoxOpen, FaEdit, FaTrashAlt, FaComments, FaHistory } from 'react-icons/fa';
+import { FaStore, FaBoxOpen, FaHistory } from 'react-icons/fa';
 import Link from 'next/link';
 
 
@@ -16,26 +16,8 @@ const VendorNavItems = () => {
       path: '/vendor/products-management',
       icon: <FaBoxOpen />,
     },
-    {
-      name: 'Edit Product',
-      path: '/vendor/edit-product',
-      icon: <FaEdit />,
-    },
-    {
-      name: 'Duplicate Product',
-      path: '/vendor/duplicate-product',
-      icon: <FaBoxOpen />,
-    },
-    {
-      name: 'Delete Product',
-      path: '/vendor/delete-product',
-      icon: <FaTrashAlt />,
-    },
-    {
-      name: 'Customer Reviews',
-      path: '/vendor/reviews',
-      icon: <FaComments />,
-    },
+    
+  
     {
       name: 'Order History',
       path: '/vendor/order-history',

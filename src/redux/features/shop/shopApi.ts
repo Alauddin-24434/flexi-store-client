@@ -34,6 +34,17 @@ const shopApi = baseApi.injectEndpoints({
       },
       providesTags: ["Shop"], // Cache all shop data
     }),
+    // find sgops by vendorid
+    findOrderHistoryVendorId: builder.query({
+      query: (vendorId) => {
+       
+        return {
+          url: `/order/${vendorId}`,
+          method: "GET",
+        };
+      },
+      providesTags: ["Shop"], // Cache all shop data
+    }),
     flowShop: builder.mutation({
         query: ({ userId, shopId, action }) => ({
           url: `/shop/flow-action/${userId}`, // The flow action API endpoint
