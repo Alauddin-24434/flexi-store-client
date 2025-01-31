@@ -61,6 +61,14 @@ const productsApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["product"], // নির্দিষ্ট item এবং সব Food item ক্যাশ মেয়াদোত্তীর্ণ করবে
     }),
+    addProductReview: builder.mutation({
+      query: ({ productId, body }) => ({
+        url: `product-review/${productId}`,
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: ["product"], // নির্দিষ্ট item এবং সব Food item ক্যাশ মেয়াদোত্তীর্ণ করবে
+    }),
 
     // Delete food item
     deleteFoodItem: builder.mutation({
@@ -79,5 +87,6 @@ export const {
   useFindProductByIdQuery,
   useUpdateFoodItemMutation,
   useDeleteFoodItemMutation,
-  useFindFlasSaleProductsQuery
+  useFindFlasSaleProductsQuery,
+  useAddProductReviewMutation
 } = productsApi;

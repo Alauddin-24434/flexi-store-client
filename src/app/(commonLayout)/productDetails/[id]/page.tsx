@@ -219,7 +219,7 @@ const ProductDetails: React.FC = () => {
 
        
         <RelatedProducts category={productData?.category} />
-        <CustomerReview  />
+        <CustomerReview   productDetails={productData} />
       </div>
     </div>
   );
