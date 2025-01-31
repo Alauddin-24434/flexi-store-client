@@ -1,9 +1,8 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useFindAllProductQuery } from "@/redux/features/products/productsApi";
 import ProductCard from "@/components/Shared/ProductCard/ProductCard";
 import { TAddProduct } from "@/types";
-import Pagination from "@/components/Shared/Pagination/Pagination";
 import SkeletonCard from "@/components/Shared/Skelton/Skelton";
 import { useSearchParams } from "next/navigation";
 
@@ -12,18 +11,26 @@ const ProductsPage: React.FC = () => {
   const [category, setCategory] = useState<string>("");
   const [search, setSearch] = useState<string>("");
   const [sorting, setSorting] = useState<string>("");
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [page, setPage] = useState<number>(1);
+  const [products, setProducts] = useState<TAddProduct[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [hasMore, setHasMore] = useState<boolean>(true);
+  const observerRef = useRef<HTMLDivElement | null>(null);
   const itemsPerPage = 9;
 
-  // Synchronize category with query parameters on initial load
   useEffect(() => {
     const categoryFromUrl = searchParams.get("category") || "";
     setCategory(categoryFromUrl);
   }, [searchParams]);
 
-  // Query products from the API
+  useEffect(() => {
+    setPage(1);
+    setProducts([]);
+    setHasMore(true);
+  }, [category, search, sorting]);
+
   const { data, isLoading, error } = useFindAllProductQuery({
-    page: currentPage,
+    page,
     limit: itemsPerPage,
     filter: "",
     category,
@@ -31,96 +38,106 @@ const ProductsPage: React.FC = () => {
     search,
   });
 
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setCategory(e.target.value);
-    setCurrentPage(1);
-  };
+  useEffect(() => {
+    if (data?.data?.length) {
+      setProducts((prev) => [...prev, ...data.data]);
+    }
+    if (data?.data?.length < itemsPerPage) {
+      setHasMore(false);
+    }
+    setLoading(false);
+  }, [data]);
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-    setCurrentPage(1);
-  };
+  // Intersection Observer to load more products
+  useEffect(() => {
+    if (!hasMore || loading) return;
 
-  const handleSortingChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSorting(e.target.value);
-  };
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setLoading(true);
+          setPage((prev) => prev + 1);
+        }
+      },
+      { threshold: 1 }
+    );
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
+    if (observerRef.current) observer.observe(observerRef.current);
 
-  if (error) return <p>Something went wrong. Please try again later.</p>;
+    return () => {
+      if (observerRef.current) observer.unobserve(observerRef.current);
+    };
+  }, [hasMore, loading]);
+
+  if (error) return <p className="text-center text-red-500">Something went wrong. Please try again later.</p>;
 
   return (
-    <div className="bg-[#e0f1f2]">
-      <div className="flex flex-col md:flex-row lg:flex-row max-w-7xl mx-auto">
-        {/* Sidebar */}
-        <div className="w-64 p-4 rounded-lg mr-4 border shadow-lg h-96">
+    <div className="bg-[#e0f1f2] min-h-screen">
+      <div className="max-w-7xl mx-auto p-4">
+        
+        {/* Sidebar Filters */}
+        <div className="flex flex-col md:flex-row lg:flex-row gap-4">
           
+          <div className="w-full md:w-1/4 lg:w-1/4 p-4 border rounded-lg shadow-md bg-white">
+            
+            {/* Category Filter */}
+            <div className="mb-4">
+              <label htmlFor="category" className="block text-sm font-medium">
+                Category
+              </label>
+              <select
+                id="category"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="mt-1 w-full p-2 border rounded-md shadow-sm"
+              >
+                <option value="">All Categories</option>
+              </select>
+            </div>
 
-          <div>
-            <label htmlFor="category" className="block text-sm font-medium">
-              Category
-            </label>
-            <select
-              id="category"
-              value={category}
-              onChange={handleCategoryChange}
-              className="mt-1 w-full p-2 border rounded-md shadow-sm"
-            >
-              <option value="">All Categories</option>
-              <option value="electronics">Electronics</option>
-              <option value="fashion">Fashion</option>
-              <option value="home">Home</option>
-            </select>
+            {/* Search Input */}
+            <div className="mb-4">
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full p-2 border rounded-md shadow-sm"
+              />
+            </div>
+
+            {/* Sorting Options */}
+            <div>
+              <label htmlFor="sorting" className="block text-sm font-medium">
+                Sort By
+              </label>
+              <select
+                id="sorting"
+                value={sorting}
+                onChange={(e) => setSorting(e.target.value)}
+                className="mt-1 w-full p-2 border rounded-md shadow-sm"
+              >
+                <option value="">Select Sorting</option>
+                <option value="price_asc">Price: Low to High</option>
+                <option value="price_desc">Price: High to Low</option>
+              </select>
+            </div>
           </div>
 
-          <div className="mt-4">
-            <input
-              type="text"
-              placeholder="Search products..."
-              value={search}
-              onChange={handleSearchChange}
-              className="w-full p-2 border rounded-md shadow-sm"
-            />
-          </div>
+          {/* Product List */}
+          <div className="flex-1">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
+              {products.map((product: TAddProduct) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
 
-          <div className="mt-4">
-            <label htmlFor="sorting" className="block text-sm font-medium">
-              Sort By
-            </label>
-            <select
-              id="sorting"
-              value={sorting}
-              onChange={handleSortingChange}
-              className="mt-1 w-full p-2 border rounded-md shadow-sm"
-            >
-              <option value="">Select Sorting</option>
-              <option value="price_asc">Price: Low to High</option>
-              <option value="price_desc">Price: High to Low</option>
-              <option value="name_asc">Name: A to Z</option>
-              <option value="name_desc">Name: Z to A</option>
-            </select>
-          </div>
-        </div>
+              {loading &&
+                Array.from({ length: 9 }).map((_, idx) => <SkeletonCard key={idx} />)}
+            </div>
 
-        {/* Product List */}
-        <div className="flex-1">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-3 gap-4 p-4">
-            {isLoading
-              ? Array.from({ length: 6 }).map((_, idx) => <SkeletonCard key={idx} />)
-              : data?.data?.map((product: TAddProduct) => (
-                  <ProductCard key={product?.id} product={product} />
-                ))}
+            {/* Infinite Scroll Trigger */}
+            {hasMore && <div ref={observerRef} className="h-10 w-full"></div>}
           </div>
-
-          {!isLoading && (
-            <Pagination
-              currentPage={currentPage}
-              totalPages={data?.totalPages || 1}
-              onPageChange={handlePageChange}
-            />
-          )}
         </div>
       </div>
     </div>

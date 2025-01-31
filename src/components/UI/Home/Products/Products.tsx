@@ -2,9 +2,9 @@ import ProductCard from '@/components/Shared/ProductCard/ProductCard';
 import SkeletonCard from '@/components/Shared/Skelton/Skelton';
 import { useFindAllProductQuery } from '@/redux/features/products/productsApi';
 import { TAddProduct } from '@/types';
-import Image from 'next/image';
+
 import React from 'react';
-import bestDealImage  from '../../../../../public/bestdil.jpg';
+
 const Products = () => {
     const { data, isLoading } = useFindAllProductQuery({
         page: 1,
@@ -34,7 +34,7 @@ const Products = () => {
                     {/* Product Grid */}
                     <div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4  py-10'>
                         {isLoading
-                            ? Array.from({ length: 3 }).map((_, idx) => (
+                            ? Array.from({ length: 4 }).map((_, idx) => (
                                 <div key={idx} className='w-full'>
                                     <SkeletonCard />
                                 </div>

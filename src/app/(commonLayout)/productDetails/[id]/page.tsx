@@ -3,19 +3,22 @@
 import CustomerReview from "@/components/UI/ProductDetails/CustomerReview/CustomerReview";
 import RelatedProducts from "@/components/UI/ProductDetails/RelatedProduct/RelatedProducts";
 import { useFindProductByIdQuery } from "@/redux/features/products/productsApi";
-import { addToCart } from "@/redux/features/cart/cartSlice";
+import { addToCart, useCurrentCartItems } from "@/redux/features/cart/cartSlice";
 import Image from "next/image";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useCurrentUser } from "@/redux/features/auth/authSlice";
+import Loader from "@/components/UI/Loader/Loader";
+import { useAppSelector } from "@/redux/hooks/hooks";
 
 
 const ProductDetails: React.FC = () => {
   const dispatch = useDispatch();
   const [quantity, setQuantity] = useState<number>(1); // Quantity state
   const [selectedImage, setSelectedImage] = useState<string>(""); // Selected image state
-
+  const cartItems = useAppSelector(useCurrentCartItems);
+  
   const user = useSelector(useCurrentUser)
   const params = useParams();
   const productId = params?.id;
@@ -38,6 +41,16 @@ const ProductDetails: React.FC = () => {
   const handleImageClick = (image: string) => {
     setSelectedImage(image);
   };
+  
+  const router = useRouter();
+  const handleBuyNow = () => {
+  
+  
+    
+
+
+  router.push('/checkout');
+}
 
   // Add product to cart
   const handleAddToCart = () => {
@@ -53,7 +66,7 @@ const ProductDetails: React.FC = () => {
   };
 
   // Loading or error handling
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loader/>;
   if (isError) return <div>Error loading product details.</div>;
 
   const productData = data?.data;
@@ -154,9 +167,12 @@ const ProductDetails: React.FC = () => {
                 <button onClick={handleAddToCart}
                   className="px-4 py-3 w-[45%] border border-gray-300 bg-white hover:bg-gray-50 text-gray-800 text-sm font-semibold">Add
                   to cart</button>
-                <button type="button"
-                  className="px-4 py-3 w-[45%] border border-purple-600 bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold">Buy
-                  it now</button>
+                  <button
+  onClick={handleBuyNow}
+  className="px-4 py-3 w-[45%] border border-purple-600 bg-purple-600 hover:bg-purple-700 text-white text-sm font-semibold"
+>
+  Buy it now
+</button>
               </div>
             </div>
             <hr className="my-6 border-gray-300" />
