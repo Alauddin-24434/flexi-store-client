@@ -10,7 +10,7 @@ const ProductCard = ({ product }:{product:TAddProduct}) => {
             <Link href={`/productDetails/${product.id}`} key={product.id}>
                 <div className="relative mx-auto flex w-[270px] h-[350px] flex-col overflow-hidden rounded-md  border border-gray-100 bg-white shadow-md">
                     <div className="relative mx-auto w-full h-44  mt-3 flex  p-2 overflow-hidden" >
-                        <Image width={500} height={100} className="object-cover w-full h-44  rounded-lg" src={product?.thumbnailImage} alt="product image" unoptimized={true} />
+                        <Image width={500} height={100} className="object-cover w-full h-44  rounded-lg" src={product?.productThumbnail} alt="product image" unoptimized={true} />
                         <span className="absolute top-0 left-0 m-2  bg-[#008ECC] px-2 text-center text-sm font-medium text-white">{product?.discount}% OFF</span>
                     </div>
                     <div className="mt-4 px-5 pb-5">

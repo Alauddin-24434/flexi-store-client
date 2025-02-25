@@ -3,7 +3,6 @@ import SkeletonCard from '@/components/Shared/Skelton/Skelton';
 import { useFindAllProductQuery } from '@/redux/features/products/productsApi';
 import { TAddProduct } from '@/types';
 
-import React from 'react';
 
 const Products = () => {
     const { data, isLoading } = useFindAllProductQuery({
@@ -11,8 +10,7 @@ const Products = () => {
         limit: 4,
     });
 
-    console.log('data', data);
-
+  
     return (
         <section className='bg-[#e0f1f2] '>
             <div className='lg:max-w-7xl max-w-xl mx-auto py-8'>
@@ -39,7 +37,7 @@ const Products = () => {
                                     <SkeletonCard />
                                 </div>
                             ))
-                            : data?.data?.map((product: TAddProduct) => (
+                            : data?.data?.products?.map((product: TAddProduct) => (
                                 <ProductCard key={product?.id} product={product} />
                             ))}
                     </div>

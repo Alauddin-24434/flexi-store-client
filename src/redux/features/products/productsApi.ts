@@ -5,7 +5,7 @@ const productsApi = baseApi.injectEndpoints({
     // Create food item
     createProdut: builder.mutation({
       query: (productInfo) => ({
-        url: "/create-product",
+        url: "/product",
         method: "POST",
         body: productInfo,
       }),
@@ -46,24 +46,24 @@ const productsApi = baseApi.injectEndpoints({
     // Find food item by ID
     findProductById: builder.query({
       query: (id) => ({
-        url: `products/${id}`,
+        url: `product/${id}`,
         method: "GET",
       }),
         providesTags: ["product"], 
     }),
 
     // Update food item
-    updateFoodItem: builder.mutation({
+    updateProductById: builder.mutation({
       query: ({ id, ...foodInfo }) => ({
-        url: `/${id}`,
+        url: `/product-update/${id}`,
         method: "PUT",
         body: foodInfo,
       }),
       invalidatesTags: ["product"], // নির্দিষ্ট item এবং সব Food item ক্যাশ মেয়াদোত্তীর্ণ করবে
     }),
     addProductReview: builder.mutation({
-      query: ({ productId, body }) => ({
-        url: `product-review/${productId}`,
+      query: (body) => ({
+        url: `product-review`,
         method: "PUT",
         body,
       }),
@@ -85,7 +85,7 @@ export const {
   useFindAllProductQuery,
   useCreateProdutMutation,
   useFindProductByIdQuery,
-  useUpdateFoodItemMutation,
+ useUpdateProductByIdMutation,
   useDeleteFoodItemMutation,
   useFindFlasSaleProductsQuery,
   useAddProductReviewMutation

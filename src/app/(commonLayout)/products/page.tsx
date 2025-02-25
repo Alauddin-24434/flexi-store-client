@@ -38,11 +38,13 @@ const ProductsPage: React.FC = () => {
     search,
   });
 
+  console.log(data)
+
   useEffect(() => {
-    if (data?.data?.length) {
-      setProducts((prev) => [...prev, ...data.data]);
+    if (data?.data?.products?.length) {
+      setProducts((prev) => [...prev, ...data?.data?.products]);
     }
-    if (data?.data?.length < itemsPerPage) {
+    if (data?.data?.products?.length < itemsPerPage) {
       setHasMore(false);
     }
     setLoading(false);

@@ -28,11 +28,13 @@ const Login = () => {
   const onSubmit = async (data: TUser) => {
     try {
       const res = await login(data).unwrap();
+      console.log(res)
       if (res.error) {
         toast.error(res.error.data.message, { duration: 2000 });
       } else {
         toast.success(res.data.message, { duration: 2000 });
-        const token = res.data?.accessToken;
+        const token = res?.data?.accessToken;
+        console.log(token)
         const decoded = await verifyToken(token);
         dispatch(
           setUser({

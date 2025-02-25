@@ -1,7 +1,7 @@
 
 
 
-import { useCreateShopMutation, useFindAllShopsQuery, useUpdateShopMutation } from "@/redux/features/shop/shopApi";
+import { useCreateShopMutation,  useFindShopByIdQuery, useUpdateShopMutation } from "@/redux/features/shop/shopApi";
 import { useAppSelector } from "@/redux/hooks/hooks";
 import { Shop } from "@/types";
 import uploadImageToCloudnary from "@/utils/imageUploadCloudinary";
@@ -9,7 +9,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
 const ShopManagement = () => {
-  const { data: shops, isLoading, error } = useFindAllShopsQuery(undefined);
+
   const [isModalOpen, setIsModalOpen] = useState(false); // Modal state
 
   const [createShop] = useCreateShopMutation();
@@ -19,7 +19,7 @@ const ShopManagement = () => {
 
   const user = useAppSelector(state => state.auth.user);
   console.log(user);
-
+  const { data: shops, isLoading, error } = useFindShopByIdQuery(user?.id);
   const {
     register,
     handleSubmit,

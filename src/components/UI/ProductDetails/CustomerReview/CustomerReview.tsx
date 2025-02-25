@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { TAddProduct } from "@/types";
 import { useCurrentUser } from "@/redux/features/auth/authSlice";
 import { useAppSelector } from "@/redux/hooks/hooks";
+import { useAddProductReviewMutation } from "@/redux/features/products/productsApi";
 
 
 interface ProductDetailsReviewSectionProps {
@@ -11,19 +12,20 @@ interface ProductDetailsReviewSectionProps {
 }
 
 const CustomerReview: React.FC<ProductDetailsReviewSectionProps> = ({ productDetails }) => {
-    // const [addFoodReview] = useAddFoodReviewMutation();
+    const [  addProductReview] = useAddProductReviewMutation();
     const user = useAppSelector(useCurrentUser)
-    console.log(user)
+    console.log(productDetails)
 
     const [formData, setFormData] = useState({
         userId: user?.id,
-        username: user?.name,
+        username: user,
         productId:productDetails.id,
         rating: 0,
-        profileImage: user?.profileImage,
         comment: "",
         date: new Date(),
     });
+
+
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -45,10 +47,7 @@ const CustomerReview: React.FC<ProductDetailsReviewSectionProps> = ({ productDet
         console.log("Submitted Review:", formData);
 
         try {
-            const response = await addFoodReview({
-                productId,
-                body: formData,
-            }).unwrap();
+            const response = await   addProductReview(formData).unwrap();
 
             console.log("Update Response:", response);
         } catch (error) {

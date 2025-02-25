@@ -34,7 +34,7 @@ const RecommendeProducts = () => {
                                         <SkeletonCard />
                                     </div>
                                 ))
-                                : data?.data?.map((product: TAddProduct) => (
+                                : data?.data?.products?.map((product: TAddProduct) => (
                                     <ProductCard key={product?.id} product={product} />
                                 ))}
                         </div>

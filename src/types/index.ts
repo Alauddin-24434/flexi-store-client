@@ -73,8 +73,8 @@ export interface TAddProduct {
   subcategory?: string; // E.g., 'Headphones'
   tags?: string[]; // E.g., ['audio', 'wireless', 'bluetooth']
   stock: number;
-  thumbnailImage: string;
-  additionalImages: string[];
+  productThumbnail: string;
+  productImages: string[];
   discount: number; // Regular discount, default is 0.0 if not provided
   shopId: string; // Foreign key to the Shop
   shop: Shop; // Reference to the Shop object

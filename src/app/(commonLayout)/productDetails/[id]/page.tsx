@@ -17,13 +17,14 @@ const ProductDetails: React.FC = () => {
   const [quantity, setQuantity] = useState<number>(1); // Quantity state
   const [selectedImage, setSelectedImage] = useState<string>(""); // Selected image state
   const cartItems = useAppSelector(useCurrentCartItems);
-  console.log("cart",cartItems)
-  
+  console.log("cart", cartItems)
+
   const user = useSelector(useCurrentUser)
   const params = useParams();
   const productId = params?.id;
 
   const { data, isLoading, isError } = useFindProductByIdQuery(productId);
+  console.log("de", data)
 
   // Handle quantity increment
   const incrementQuantity = () => {
@@ -41,16 +42,16 @@ const ProductDetails: React.FC = () => {
   const handleImageClick = (image: string) => {
     setSelectedImage(image);
   };
-  
+
   const router = useRouter();
   const handleBuyNow = () => {
-  
-  
-    
 
 
-  router.push('/checkout');
-}
+
+
+
+    router.push('/checkout');
+  }
 
   // Add product to cart
   const handleAddToCart = () => {
@@ -60,18 +61,18 @@ const ProductDetails: React.FC = () => {
       name: data?.data?.name,
       price: data?.data?.price,
       quantity,
-      image: data?.data?.thumbnailImage,
+      image: data?.data?.productThumbnail,
     };
     dispatch(addToCart(product));
   };
 
   // Loading or error handling
-  if (isLoading) return <Loader/>;
+  if (isLoading) return <Loader />;
   if (isError) return <div>Error loading product details.</div>;
 
-  const productData = data?.data;
-  const currentImage = selectedImage || productData?.thumbnailImage;
-
+  const productData = data?.data?.product;
+  const currentImage = selectedImage || productData?.productThumbnail;
+console.log("productData",productData)
   return (
     <div className="lg:max-w-7xl max-w-xl mx-auto">
       <div className="font-[sans-serif] p-4 bg-gray-100">
@@ -91,7 +92,7 @@ const ProductDetails: React.FC = () => {
               </div>
               <div className="bg-white p-2 w-full max-w-full overflow-auto">
                 <div className="flex justify-between flex-row gap-4 shrink-0">
-                  {productData?.additionalImages?.map((image: string, index: number) => (
+                  {productData?.productImages?.map((image: string, index: number) => (
                     <Image
                       key={index}
                       width={100}
@@ -114,11 +115,11 @@ const ProductDetails: React.FC = () => {
               <h3 className="text-lg sm:text-xl font-bold text-gray-800">{productData?.name}</h3>
               <div className="flex items-center gap-3 mt-1">
                 <div className="flex items-center gap-1">
-                  <p className="text-base text-gray-500">{productData?.rating || 4}</p>
+                  <p className="text-base text-gray-500">{productData?.averageRating || 0}</p>
                   {[...Array(5)].map((_, index) => (
                     <svg
                       key={index}
-                      className={`w-4 h-4 ${index < productData?.rating ? "fill-purple-600" : "fill-gray-300"}`}
+                      className={`w-4 h-4 ${index < productData?.averageRating ? "fill-purple-600" : "fill-gray-300"}`}
                       viewBox="0 0 14 13"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -128,7 +129,7 @@ const ProductDetails: React.FC = () => {
                   ))}
                 </div>
                 <span className="text-gray-500">|</span>
-                <p className="text-sm text-gray-500">{productData?.reviews || "No reviews yet"}</p>
+                {/* <p className="text-sm text-gray-500">{ "No reviews yet"}</p> */}
               </div>
               <div className="mt-2">
                 <p className="text-gray-500 mt-1 text-sm">{productData?.description}</p>
@@ -164,12 +165,12 @@ const ProductDetails: React.FC = () => {
                 <button onClick={handleAddToCart}
                   className="px-4 py-3 w-[45%] border border-gray-300 bg-white hover:bg-gray-50 text-gray-800 text-sm font-semibold">Add
                   to cart</button>
-                  <button
-  onClick={handleBuyNow}
-  className="px-4 py-3 w-[45%] border  bg-[#0d938f] text-white  sm:text-base hover:bg-[#0b7671] text-sm font-semibold"
->
-  Buy it now
-</button>
+                <button
+                  onClick={handleBuyNow}
+                  className="px-4 py-3 w-[45%] border  bg-[#0d938f] text-white  sm:text-base hover:bg-[#0b7671] text-sm font-semibold"
+                >
+                  Buy it now
+                </button>
               </div>
             </div>
             <hr className="my-6 border-gray-300" />
@@ -217,9 +218,9 @@ const ProductDetails: React.FC = () => {
           </div>
         </div>
 
-       
-        <RelatedProducts category={productData?.category} />
-        <CustomerReview   productDetails={productData} />
+
+        <RelatedProducts category={productData?.category?.name} />
+        <CustomerReview productDetails={productData} />
       </div>
     </div>
   );
